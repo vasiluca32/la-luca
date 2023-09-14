@@ -41,8 +41,6 @@ const LogIn = () => {
         </button>
         {emailSent ? <p>Email sent</p> : ''}
       </form>
-      <hr />
-      <p>lucavasileluca@yahoo.com</p>
     </div>
   );
 };
