@@ -38,43 +38,38 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     const db = getDatabase();
     const dbRef = ref(db);
-
-    const emailSignIn = () => {
-      if (isSignInWithEmailLink(auth, window.location.href)) {
-        let email = window.localStorage.getItem('emailForSignIn');
-        if (!email) {
-          email = window.prompt('Please provide your email for confirmation');
-        }
-
-        signInWithEmailLink(auth, email, window.location.href)
-          .then((result) => {
-            window.localStorage.removeItem('emailForSignIn');
-
-            // checking if the user's uid exist in the database
-            get(child(dbRef, `appUsers/${result.user.uid}`))
-              .then((snapshot) => {
-                // if user exist in database no action about it
-                if (snapshot.exists()) {
-                  return;
-                  // if not, we'll create a new user with role customer
-                } else {
-                  set(ref(db, 'appUsers/' + result.user.uid), {
-                    email: result.user.email,
-                    role: 'customer',
-                  });
-                }
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let email = window.localStorage.getItem('emailForSignIn');
+      if (!email) {
+        email = window.prompt('Please provide your email for confirmation');
       }
-    };
 
-    return emailSignIn;
+      signInWithEmailLink(auth, email, window.location.href)
+        .then((result) => {
+          window.localStorage.removeItem('emailForSignIn');
+
+          // checking if the user's uid exist in the database
+          get(child(dbRef, `appUsers/${result.user.uid}`))
+            .then((snapshot) => {
+              // if user exist in database no action about it
+              if (snapshot.exists()) {
+                return;
+                // if not, we'll create a new user with role customer
+              } else {
+                set(ref(db, 'appUsers/' + result.user.uid), {
+                  email: result.user.email,
+                  role: 'customer',
+                });
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   //watching the authentication state on all tabs
