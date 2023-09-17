@@ -35,15 +35,14 @@ export function AuthContextProvider({ children }) {
       });
   }
 
-  // analytics
-  useEffect(() => {
-    logEvent(analytics, 'app loaded');
-  });
-
   // performing the login action on the same device and on other device by asking for email via window.prompt
   useEffect(() => {
     const db = getDatabase();
     const dbRef = ref(db);
+
+    // analytics
+    logEvent(analytics);
+
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = window.localStorage.getItem('emailForSignIn');
       if (!email) {
