@@ -5,8 +5,9 @@ import {
   signOut,
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '../firebase/firebase';
+import { analytics, auth } from '../firebase/firebase';
 import { child, get, getDatabase, ref, set } from 'firebase/database';
+import { logEvent } from 'firebase/analytics';
 
 const AuthContext = createContext(null);
 
@@ -33,6 +34,11 @@ export function AuthContextProvider({ children }) {
         console.log(error);
       });
   }
+
+  // analytics
+  useEffect(() => {
+    logEvent(analytics, 'app loaded');
+  });
 
   // performing the login action on the same device and on other device by asking for email via window.prompt
   useEffect(() => {
