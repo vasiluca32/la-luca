@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { analytics, auth } from '../firebase/firebase';
-import { child, get, getDatabase, ref, set } from 'firebase/database';
+import { child, get, getDatabase, ref, set, update } from 'firebase/database';
 import { logEvent } from 'firebase/analytics';
 
 const AuthContext = createContext(null);
@@ -40,9 +40,24 @@ export function AuthContextProvider({ children }) {
     const db = getDatabase();
     const dbRef = ref(db);
 
+    // app loads count in database
+    get(child(dbRef, 'appLoads/'))
+      .then((snapshot) => {
+        // console.log(snapshot.val());
+        const currentLoad = snapshot.val();
+        const newLoad = {
+          appLoads: currentLoad + 1,
+        };
+        update(ref(db), newLoad);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     // analytics
     logEvent(analytics);
 
+    // login
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = window.localStorage.getItem('emailForSignIn');
       if (!email) {
