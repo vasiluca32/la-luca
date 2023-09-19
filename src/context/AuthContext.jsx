@@ -23,7 +23,7 @@ export function AuthContextProvider({ children }) {
   // performs the action to send a login link to the provided email
   function signUp(email) {
     const actionCodeSettings = {
-      url: 'http://localhost:3000/',
+      url: 'https://la-luca.web.app/',
       handleCodeInApp: true,
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
