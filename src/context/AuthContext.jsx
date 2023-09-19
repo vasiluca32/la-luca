@@ -5,8 +5,9 @@ import {
   signOut,
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '../firebase/firebase';
-import { child, get, getDatabase, ref, set } from 'firebase/database';
+import { analytics, auth } from '../firebase/firebase';
+import { child, get, getDatabase, ref, set, update } from 'firebase/database';
+import { logEvent } from 'firebase/analytics';
 
 const AuthContext = createContext(null);
 
@@ -39,42 +40,55 @@ export function AuthContextProvider({ children }) {
     const db = getDatabase();
     const dbRef = ref(db);
 
-    const emailSignIn = () => {
-      if (isSignInWithEmailLink(auth, window.location.href)) {
-        let email = window.localStorage.getItem('emailForSignIn');
-        if (!email) {
-          email = window.prompt('Please provide your email for confirmation');
-        }
+    // app loads count in database
+    get(child(dbRef, 'appLoads/'))
+      .then((snapshot) => {
+        // console.log(snapshot.val());
+        const currentLoad = snapshot.val();
+        const newLoad = {
+          appLoads: currentLoad + 1,
+        };
+        update(ref(db), newLoad);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-        signInWithEmailLink(auth, email, window.location.href)
-          .then((result) => {
-            window.localStorage.removeItem('emailForSignIn');
+    // analytics
+    logEvent(analytics);
 
-            // checking if the user's uid exist in the database
-            get(child(dbRef, `appUsers/${result.user.uid}`))
-              .then((snapshot) => {
-                // if user exist in database no action about it
-                if (snapshot.exists()) {
-                  return;
-                  // if not, we'll create a new user with role customer
-                } else {
-                  set(ref(db, 'appUsers/' + result.user.uid), {
-                    email: result.user.email,
-                    role: 'customer',
-                  });
-                }
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let email = window.localStorage.getItem('emailForSignIn');
+      if (!email) {
+        email = window.prompt('Please provide your email for confirmation');
       }
-    };
 
-    return emailSignIn;
+      signInWithEmailLink(auth, email, window.location.href)
+        .then((result) => {
+          window.localStorage.removeItem('emailForSignIn');
+
+          // checking if the user's uid exist in the database
+          get(child(dbRef, `appUsers/${result.user.uid}`))
+            .then((snapshot) => {
+              // if user exist in database no action about it
+              if (snapshot.exists()) {
+                return;
+                // if not, we'll create a new user with role customer
+              } else {
+                set(ref(db, 'appUsers/' + result.user.uid), {
+                  email: result.user.email,
+                  role: 'customer',
+                });
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   //watching the authentication state on all tabs

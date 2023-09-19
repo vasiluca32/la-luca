@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "category": "fruits",
+      "type": "apple",
+      "name": "red apples",
+      "description": "lorem ipsum description",
+      "taste": "sweet",
+      "price": 2
+    },
+    {
+      "category": "fruits",
+      "type": "apple",
+      "name": "green apples",
+      "description": "lorem ipsum description",
+      "taste": "sour",
+      "price": 1.5
+    },
+    {
+      "category": "fruits",
+      "type": "pear",
+      "name": "gray pear",
+      "description": "lorem ipsum description",
+      "taste": "swet dry",
+      "price": 5
+    },
+    {
+      "category": "fruits",
+      "type": "pear",
+      "name": "yellow pear",
+      "description": "lorem ipsum description",
+      "taste": "sour",
+      "price": 3
+    },
+    {
+      "category": "vegetables",
+      "type": "potato",
+      "name": "red potato",
+      "description": "lorem ipsum description",
+      "taste": "bitter",
+      "price": 3
+    }
+  ]
+}
