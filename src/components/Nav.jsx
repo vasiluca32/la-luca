@@ -17,7 +17,7 @@ const Nav = () => {
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <div className='container-fluid'>
         <NavLink className='navbar-brand' to='/'>
-          La Luca
+          <img src='logo-color.png' alt='Logo' width='300' height='300' />
         </NavLink>
 
         <button
