@@ -1,3 +1,31 @@
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+
+// default colors
 $primary: #476930;
+$secondary: #86b049;
+$light: #c4e1c5;
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark,
+);
+
+// custom colors
+$lighter: #dff5ce;
+
+$custom-colors: (
+  'lighter': $lighter,
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
 
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';

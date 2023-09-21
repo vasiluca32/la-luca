@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthContext, { useAuth } from '../context/AuthContext';
+import './Nav.scss';
+import logo from '../assets/logo/result-1.svg';
 
 const Nav = () => {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
@@ -15,9 +17,11 @@ const Nav = () => {
 
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-      <div className='container-fluid'>
+      <div className='container-fluid text-center'>
         <NavLink className='navbar-brand' to='/'>
-          <img src='logo-color.png' alt='Logo' width='300' height='300' />
+          <div className='img-wrapper'>
+            <img src={logo} alt='Logo' width='1000' height='207' />
+          </div>
         </NavLink>
 
         <button

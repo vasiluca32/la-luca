@@ -12,6 +12,7 @@ import { AuthContextProvider } from './context/AuthContext';
 import PrivateRoutes from './components/PrivateRoutes';
 import Dashboard from './pages/Dashboard';
 import AdminRoutes from './components/AdminRoutes';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -49,6 +50,8 @@ function App() {
 
           <Route path='*' element={<Page404 />}></Route>
         </Routes>
+
+        <Footer />
       </AuthContextProvider>
     </div>
   );
