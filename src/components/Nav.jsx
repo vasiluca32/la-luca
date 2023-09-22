@@ -16,7 +16,7 @@ const Nav = () => {
   }
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light fixed-top bg-light'>
+    <nav className='navbar-component navbar navbar-expand-lg navbar-light fixed-top bg-light'>
       <div className='container-fluid text-center'>
         <NavLink className='navbar-brand' data-aos='fade-down' to='/'>
           <div className='img-wrapper'>
