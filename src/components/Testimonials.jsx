@@ -3,7 +3,7 @@ import React from 'react';
 const Testimonials = () => {
   return (
     <section
-      className='team-component bg-lighter d-flex align-items-center'
+      className='team-component bg-lavander d-flex align-items-center'
       style={{ height: '50vh' }}
     >
       <div className='container text-center'>

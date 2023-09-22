@@ -16,9 +16,9 @@ const Nav = () => {
   }
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+    <nav className='navbar navbar-expand-lg navbar-light fixed-top bg-light'>
       <div className='container-fluid text-center'>
-        <NavLink className='navbar-brand' to='/'>
+        <NavLink className='navbar-brand' data-aos='fade-down' to='/'>
           <div className='img-wrapper'>
             <img src={logo} alt='Logo' width='1000' height='207' />
           </div>
@@ -41,27 +41,27 @@ const Nav = () => {
           id='navbarSupportedContent'
         >
           <ul className='navbar-nav'>
-            <li className='nav-item'>
+            <li className='nav-item' data-aos='fade-down' data-aos-delay='50'>
               <NavLink to='/' className='nav-link active'>
                 Home
               </NavLink>
             </li>
-            <li className='nav-item'>
+            <li className='nav-item' data-aos='fade-down' data-aos-delay='100'>
               <NavLink className='nav-link' to='products'>
                 Products
               </NavLink>
             </li>
-            <li className='nav-item'>
+            <li className='nav-item' data-aos='fade-down' data-aos-delay='150'>
               <NavLink className='nav-link' to='contact'>
                 Contact
               </NavLink>
             </li>
-            <li className='nav-item'>
+            <li className='nav-item' data-aos='fade-down' data-aos-delay='200'>
               <NavLink className='nav-link' to='blog'>
                 Blog
               </NavLink>
             </li>
-            <li className='nav-item'>
+            <li className='nav-item' data-aos='fade-down' data-aos-delay='250'>
               <NavLink className='nav-link' to='dashboard'>
                 Dashboard
               </NavLink>
@@ -69,7 +69,11 @@ const Nav = () => {
 
             {loggedUser.currentUser ? (
               <>
-                <li className='nav-item'>
+                <li
+                  className='nav-item'
+                  data-aos='fade-down'
+                  data-aos-delay='300'
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='16'
@@ -82,14 +86,22 @@ const Nav = () => {
                   </svg>
                   <p>{loggedUser.currentUser.email}</p>
                 </li>
-                <li className='nav-item'>
+                <li
+                  className='nav-item'
+                  data-aos='fade-down'
+                  data-aos-delay='350'
+                >
                   <NavLink className='nav-link' onClick={handleSignOut}>
                     Sign Out
                   </NavLink>
                 </li>
               </>
             ) : (
-              <li className='nav-item'>
+              <li
+                className='nav-item'
+                data-aos='fade-down'
+                data-aos-delay='300'
+              >
                 <NavLink className='nav-link' to='login'>
                   Login
                 </NavLink>

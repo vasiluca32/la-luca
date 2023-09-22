@@ -7,8 +7,8 @@ const Team = () => {
       style={{ height: '50vh' }}
     >
       <div className='container text-center'>
-        <h1>Team component</h1>
-        <p>
+        <h1 data-aos='fade-up'>Team component</h1>
+        <p data-aos='fade-up'>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam
           nostrum neque facilis numquam totam praesentium, enim delectus ex iste
           nisi in quisquam cum incidunt aliquam, exercitationem explicabo labore

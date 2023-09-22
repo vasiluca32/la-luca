@@ -10,19 +10,27 @@ $light: #c4e1c5;
 $theme-colors: (
   'primary': $primary,
   'secondary': $secondary,
+  'light': $light,
   'success': $success,
   'info': $info,
   'warning': $warning,
   'danger': $danger,
-  'light': $light,
   'dark': $dark,
 );
 
 // custom colors
 $lighter: #dff5ce;
+$light-brown: #c8b88a;
+$light-pink: #f1dddf;
+$kashmir-blue: #525b88;
+$lavander: #dee2fc;
 
 $custom-colors: (
   'lighter': $lighter,
+  'light-brown': $light-brown,
+  'light-pink': $light-pink,
+  'kashmir-blue': $kashmir-blue,
+  'lavander': $lavander,
 );
 
 // Merge the maps
