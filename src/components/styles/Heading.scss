@@ -1,0 +1,10 @@
+@import '../../scss/custom.scss';
+
+.heading-component {
+  background: url('../../assets/images/heading-image.jpg') no-repeat
+    center/cover;
+
+  .header-1 {
+    font-size: 4rem;
+  }
+}
