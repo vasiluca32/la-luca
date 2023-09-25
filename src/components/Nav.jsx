@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthContext, { useAuth } from '../context/AuthContext';
-import './Nav.scss';
+import './styles/Nav.scss';
 import logo from '../assets/logo/result-1.svg';
 
 const Nav = () => {
