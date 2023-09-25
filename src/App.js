@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
@@ -20,23 +19,11 @@ import 'aos/dist/aos.css'; // You can also use <link> for styles
 function App() {
   AOS.init();
   return (
-    <div className='App'>
+    <div className='App' style={{ backgroundColor: '#dff5ce7a' }}>
       <AuthContextProvider>
-        <Nav />
-        {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+        <header className='App-header'>
+          <Nav />
+        </header>
 
         <Routes>
           <Route exact path='/' element={<Home />}></Route>
