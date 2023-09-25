@@ -7,7 +7,6 @@ import Testimonials from '../components/Testimonials';
 const Home = () => {
   return (
     <>
-      {/* some data for pr test */}
       <Heading />
       <Team />
       <Testimonials />
