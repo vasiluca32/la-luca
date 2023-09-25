@@ -4,7 +4,7 @@ const Heading = () => {
   return (
     <section
       className='heading-component bg-lighter d-flex align-items-center'
-      style={{ height: '100vh' }}
+      style={{ height: '100vh', marginTop: '60px' }}
     >
       <div className='container text-center'>
         <h1 data-aos='fade-right' data-aos-duration='400'>

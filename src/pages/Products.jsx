@@ -24,7 +24,7 @@ const Products = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ marginTop: '60px' }}>
       <h1>Products page</h1>
       <ul>
         {products.map((element) => {

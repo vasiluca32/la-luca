@@ -16,7 +16,7 @@ const LogIn = () => {
     setEmailSent(true);
   }
   return (
-    <div className='container'>
+    <div className='container' style={{ marginTop: '60px' }}>
       <form onSubmit={handleSubmit}>
         <div className='mb-3'>
           <label htmlFor='email' className='form-label'>
