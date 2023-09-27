@@ -1,0 +1,65 @@
+@import '../../scss/custom.scss';
+
+.carousel-component {
+  .container {
+    .carousel {
+      max-width: 800px;
+      .carousel-inner {
+        .carousel-item {
+          img {
+            object-fit: cover;
+            max-height: 400px;
+          }
+          &.active {
+            img {
+              max-height: 400px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .carousel-component {
+    .container {
+      .carousel {
+        .carousel-inner {
+          .carousel-item {
+            img {
+              max-height: 400px;
+            }
+            &.active {
+              img {
+                max-height: 400px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .carousel-component {
+    .container {
+      .carousel {
+        width: 800px;
+        .carousel-inner {
+          .carousel-item {
+            img {
+              height: 450px;
+            }
+            &.active {
+              img {
+                height: 450px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
