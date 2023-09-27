@@ -16,8 +16,8 @@ const Carousel = () => {
                 src={apples}
                 className='d-block w-100'
                 alt='Apples'
-                width='800'
-                height='450'
+                width='1140'
+                height='810'
                 loading='lazy'
               />
             </div>
@@ -26,8 +26,8 @@ const Carousel = () => {
                 src={pears}
                 className='d-block w-100'
                 alt='Pears'
-                width='800'
-                height='450'
+                width='1140'
+                height='810'
                 loading='lazy'
               />
             </div>
@@ -36,8 +36,8 @@ const Carousel = () => {
                 src={plums}
                 className='d-block w-100'
                 alt='Plums'
-                width='800'
-                height='450'
+                width='1140'
+                height='810'
                 loading='lazy'
               />
             </div>
