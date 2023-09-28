@@ -38,22 +38,22 @@ const Footer = () => {
               <h3>Links</h3>
               <ul className='ps-0'>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 1
                   </a>
                 </li>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 2
                   </a>
                 </li>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 3
                   </a>
                 </li>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 4
                   </a>
                 </li>
@@ -63,22 +63,22 @@ const Footer = () => {
               <h3>Links</h3>
               <ul className='ps-0'>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 1
                   </a>
                 </li>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 2
                   </a>
                 </li>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 3
                   </a>
                 </li>
                 <li>
-                  <a className='text-decoration-none text-body' href='#'>
+                  <a className='text-decoration-none text-body' href='/'>
                     Link 4
                   </a>
                 </li>
