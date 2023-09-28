@@ -1,0 +1,21 @@
+@import '../../scss/custom.scss';
+
+.footer-component {
+  img {
+    max-width: 150px;
+    height: auto;
+  }
+
+  .links-wrapper {
+    li {
+      list-style: none;
+    }
+  }
+
+  .social-icons {
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}

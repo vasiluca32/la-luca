@@ -7,7 +7,7 @@ import plums from '../assets/images/plums.jpg';
 const Carousel = () => {
   return (
     <section className='carousel-component'>
-      <div className='container pt-5 d-flex flex-column justify-content-center align-items-center'>
+      <div className='container pt-5 pb-5 d-flex flex-column justify-content-center align-items-center'>
         <h2 className='mb-5'>Discover our products</h2>
         <div id='carousel-1' className='carousel slide'>
           <div className='carousel-inner'>

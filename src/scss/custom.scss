@@ -33,15 +33,6 @@ $custom-colors: (
   'lavander': $lavander,
 );
 
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px,
-);
-
 // Merge the maps
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
