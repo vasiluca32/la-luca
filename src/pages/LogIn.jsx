@@ -26,6 +26,7 @@ const LogIn = () => {
             type='email'
             name='email'
             id='email'
+            autoComplete='on'
             ref={emailInput}
             className='form-control'
             value={email}
