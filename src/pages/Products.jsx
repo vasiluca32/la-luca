@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [title, setTitle] = useState([]);
+  // const [title, setTitle] = useState([]);
   useEffect(() => {
     // setTitle('Some title');
     const app = initializeApp(
