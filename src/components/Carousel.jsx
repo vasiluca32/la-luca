@@ -1,47 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles/Carousel.scss';
-import apples from '../assets/images/apples.jpg';
-import pears from '../assets/images/pears.jpg';
-import plums from '../assets/images/plums.jpg';
+import { child, get, getDatabase } from 'firebase/database';
+import { ref } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
 
 const Carousel = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const app = initializeApp(
+      {
+        databaseURL: 'https://la-luca-b1300.europe-west1.firebasedatabase.app/',
+      },
+      'app2'
+    );
+    const db = getDatabase(app);
+    const dbRef = ref(db);
+    get(child(dbRef, 'products/'))
+      .then((snapshot) => {
+        const validProducts = [];
+        snapshot.val().forEach((element) => {
+          if (element.url) {
+            validProducts.push(element);
+          }
+        });
+        setProducts(validProducts);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <section className='carousel-component'>
       <div className='container pt-5 pb-5 d-flex flex-column justify-content-center align-items-center'>
         <h2 className='mb-5'>Discover our products</h2>
         <div id='carousel-1' className='carousel slide'>
-          <div className='carousel-inner'>
-            <div className='carousel-item active'>
-              <img
-                src={apples}
-                className='d-block w-100'
-                alt='Apples'
-                width='1140'
-                height='810'
-                loading='lazy'
-              />
+          {!loading ? (
+            <div className='carousel-inner'>
+              {products.map((element, index) => {
+                return (
+                  <div
+                    key={element.name}
+                    className={
+                      index === 0 ? 'carousel-item active' : 'carousel-item'
+                    }
+                  >
+                    <img
+                      src={element.url}
+                      className='d-block w-100'
+                      alt={element.name}
+                      width='1140'
+                      height='810'
+                      loading='lazy'
+                    />
+                  </div>
+                );
+              })}
             </div>
-            <div className='carousel-item'>
-              <img
-                src={pears}
-                className='d-block w-100'
-                alt='Pears'
-                width='1140'
-                height='810'
-                loading='lazy'
-              />
-            </div>
-            <div className='carousel-item'>
-              <img
-                src={plums}
-                className='d-block w-100'
-                alt='Plums'
-                width='1140'
-                height='810'
-                loading='lazy'
-              />
-            </div>
-          </div>
+          ) : (
+            <p>Loading</p>
+          )}
+
           <button
             className='carousel-control-prev'
             type='button'

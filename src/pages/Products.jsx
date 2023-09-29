@@ -29,7 +29,11 @@ const Products = () => {
   return (
     <>
       <Helmet>
-        <title>Some title</title>
+        <title>Products - Gradina La Luca</title>
+        <meta property='og:title' content='Products - Gradina La Luca' />
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content='https://la-luca.web.app/products' />
+        <meta property='og:image' content={products[0].url} />
       </Helmet>
       <div style={{ marginTop: '60px' }}>
         <h1>Products page</h1>
