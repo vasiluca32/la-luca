@@ -13,12 +13,12 @@ import PrivateRoutes from './components/PrivateRoutes';
 import Dashboard from './pages/Dashboard';
 import AdminRoutes from './components/AdminRoutes';
 import Footer from './components/Footer';
-import AOS from 'aos';
+// import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 // ..
 
 function App() {
-  AOS.init();
+  // AOS.init();
   return (
     <div className='App' style={{ backgroundColor: '#dff5ce7a' }}>
       <AuthContextProvider>
