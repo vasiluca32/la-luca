@@ -9,14 +9,8 @@ const Heading = () => {
     >
       <div className='container text-white'>
         <div className='col-12 col-sm-6 text-left'>
-          <h1
-            className='header-1'
-            data-aos='fade-right'
-            data-aos-duration='400'
-          >
-            Gradina La Luca
-          </h1>
-          <p data-aos='fade-left' data-aos-duration='400'>
+          <h1 className='header-1'>Gradina La Luca</h1>
+          <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit
             quidem dignissimos, assumenda minima itaque odio ut exercitationem
             deleniti. Obcaecati, ea.
