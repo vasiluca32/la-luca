@@ -5,10 +5,8 @@ import './styles/Nav.scss';
 import logo from '../assets/logo/result-1.svg';
 
 const Nav = () => {
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+  const [mobileMenu, setMobileMenu] = useState(false);
   const { logOut } = useAuth();
-
   const loggedUser = useContext(AuthContext);
 
   function handleSignOut() {
@@ -27,42 +25,67 @@ const Nav = () => {
         <button
           className='navbar-toggler'
           type='button'
-          data-toggle='collapse'
-          data-target='#navbarSupportedContent'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarSupportedContent'
           aria-controls='navbarSupportedContent'
-          aria-expanded={!isNavCollapsed ? true : false}
+          aria-expanded={mobileMenu}
           aria-label='Toggle navigation'
-          onClick={handleNavCollapse}
+          onClick={() =>
+            !mobileMenu ? setMobileMenu(true) : setMobileMenu(false)
+          }
         >
           <span className='navbar-toggler-icon'></span>
         </button>
         <div
-          className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}
+          className={
+            !mobileMenu ? 'navbar-collapse collapse' : 'navbar-collapse'
+          }
           id='navbarSupportedContent'
         >
           <ul className='navbar-nav'>
             <li className='nav-item' data-aos='fade-down' data-aos-delay='50'>
-              <NavLink to='/' className='nav-link active'>
+              <NavLink
+                to='/'
+                className='nav-link active'
+                aria-current='page'
+                onClick={() => setMobileMenu(false)}
+              >
                 Home
               </NavLink>
             </li>
             <li className='nav-item' data-aos='fade-down' data-aos-delay='100'>
-              <NavLink className='nav-link' to='products'>
+              <NavLink
+                className='nav-link'
+                to='products'
+                onClick={() => setMobileMenu(false)}
+              >
                 Products
               </NavLink>
             </li>
             <li className='nav-item' data-aos='fade-down' data-aos-delay='150'>
-              <NavLink className='nav-link' to='contact'>
+              <NavLink
+                className='nav-link'
+                to='contact'
+                onClick={() => setMobileMenu(false)}
+              >
                 Contact
               </NavLink>
             </li>
             <li className='nav-item' data-aos='fade-down' data-aos-delay='200'>
-              <NavLink className='nav-link' to='blog'>
+              <NavLink
+                className='nav-link'
+                to='blog'
+                onClick={() => setMobileMenu(false)}
+              >
                 Blog
               </NavLink>
             </li>
             <li className='nav-item' data-aos='fade-down' data-aos-delay='250'>
-              <NavLink className='nav-link' to='dashboard'>
+              <NavLink
+                className='nav-link'
+                to='dashboard'
+                onClick={() => setMobileMenu(false)}
+              >
                 Dashboard
               </NavLink>
             </li>
@@ -102,7 +125,11 @@ const Nav = () => {
                 data-aos='fade-down'
                 data-aos-delay='300'
               >
-                <NavLink className='nav-link' to='login'>
+                <NavLink
+                  className='nav-link'
+                  to='login'
+                  onClick={() => setMobileMenu(false)}
+                >
                   Login
                 </NavLink>
               </li>
