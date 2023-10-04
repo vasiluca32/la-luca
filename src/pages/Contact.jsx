@@ -5,9 +5,7 @@ import { Helmet } from 'react-helmet-async';
 
 const Contact = () => {
   getDownloadURL(ref(storage, 'appAssets/heading-image.jpg'))
-    .then((url) => {
-      console.log(url);
-    })
+    .then((url) => {})
     .catch((error) => {
       console.log(error);
     });

@@ -1,11 +1,22 @@
 import React from 'react';
 import './styles/Footer.scss';
 import logo from '../assets/logo/result-1.svg';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../firebase/firebase';
 
 const Footer = () => {
   function handleSubmit(e) {
     e.preventDefault();
-    alert('submitted');
+    const callableReturnMessage = httpsCallable(functions, 'helloWorld');
+
+    callableReturnMessage({ message: 'message from front' })
+      .then((result) => {
+        // const data = JSON.parse(result);
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   return (
     <footer className='footer-component bg-light pt-3 pb-3'>

@@ -23,7 +23,8 @@ export function AuthContextProvider({ children }) {
   // performs the action to send a login link to the provided email
   function signUp(email) {
     const actionCodeSettings = {
-      url: 'https://la-luca.web.app/',
+      // url: 'https://la-luca.web.app/', //PROD purposes
+      url: 'http://localhost:3000/', //DEV purposes
       handleCodeInApp: true,
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
@@ -99,6 +100,7 @@ export function AuthContextProvider({ children }) {
     auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       if (user) {
+        console.log(user);
         get(child(dbRef, `appUsers/${user.uid}`))
           .then((snapshot) => {
             // if user exist in database no action about it
