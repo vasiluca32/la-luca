@@ -26,4 +26,4 @@ export const auth = getAuth(app);
 export const analytics = getAnalytics(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
-connectFunctionsEmulator(functions, 'localhost', 5001);
+// connectFunctionsEmulator(functions, 'localhost', 5001);
