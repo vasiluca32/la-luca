@@ -3,7 +3,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
-import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
+import { getFunctions } from 'firebase/functions';
+// import { connectFunctionsEmulator } from 'firebase/functions';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
