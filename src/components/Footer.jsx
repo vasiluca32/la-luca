@@ -7,11 +7,10 @@ import { functions } from '../firebase/firebase';
 const Footer = () => {
   function handleSubmit(e) {
     e.preventDefault();
-    const callableReturnMessage = httpsCallable(functions, 'helloWorld');
 
+    const callableReturnMessage = httpsCallable(functions, 'helloWorld');
     callableReturnMessage({ message: 'message from front' })
       .then((result) => {
-        // const data = JSON.parse(result);
         console.log(result);
       })
       .catch((error) => {

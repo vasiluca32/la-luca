@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import EmailForm from '../components/EmailForm';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../firebase/firebase';
 
 const Dashboard = () => {
+  const [email, setEmail] = useState('');
+  function handleSubmit() {
+    const addAdmin = httpsCallable(functions, 'addAdminRole');
+    addAdmin({ message: email })
+      .then((result) => {
+        // const data = JSON.parse(result);
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <>
       <Helmet>
         <title>Dashboard - Gradina La Luca</title>
-        <meta property='og:title' content='Contact - Gradina La Luca' />
-        <meta property='og:type' content='website' />
-        <meta property='og:url' content='https://la-luca.web.app/dashboard' />
-        <meta
-          property='og:image'
-          content='https://firebasestorage.googleapis.com/v0/b/la-luca.appspot.com/o/appAssets%2Fheading-image.jpg?alt=media&token=56d8a9bb-98c6-484c-81bb-3c270c835fa6'
-        />
       </Helmet>
-      <div style={{ marginTop: '60px' }}>
-        <h1>Dashboard</h1>
+      <div className='page-wrapper' style={{ marginTop: '60px' }}>
+        <EmailForm
+          email={email}
+          setEmail={setEmail}
+          handleSubmit={handleSubmit}
+        />
       </div>
     </>
   );

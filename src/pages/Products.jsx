@@ -39,7 +39,7 @@ const Products = () => {
           <meta property='og:image' content={products[0].url} />
         </Helmet>
 
-        <div style={{ marginTop: '60px' }}>
+        <div className='page-wrapper' style={{ marginTop: '60px' }}>
           <h1>Products page</h1>
           <ul>
             {products.map((element) => {

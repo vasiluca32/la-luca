@@ -18,3 +18,21 @@ exports.helloWorld = onRequest((request, response) => {
     });
   });
 });
+
+exports.addAdminRole = onRequest((request, response) => {
+  cors(request, response, () => {
+    return admin
+      .auth()
+      .getUserByEmail(request.data.email)
+      .then((user) => {
+        return admin.auth().setCustomUserClaims(user.uid, {
+          admin: true,
+        });
+      })
+      .then(() => {
+        return response.send({
+          data: `Success! ${request.data.email} has been made an admin`,
+        });
+      });
+  });
+});
