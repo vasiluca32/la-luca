@@ -4,8 +4,8 @@ const { onRequest } = require('firebase-functions/v2/https');
 const cors = require('cors')({ origin: true });
 
 admin.initializeApp({
-  // credential: admin.credential.cert('./serviceAccountKey.json'), //for DEV
-  credential: admin.credential.applicationDefault(), //for prod
+  credential: admin.credential.cert('./serviceAccountKey.json'), //for DEV
+  // credential: admin.credential.applicationDefault(), //for prod
   databaseURL: 'https://la-luca-default-rtdb.europe-west1.firebasedatabase.app',
 });
 
@@ -21,9 +21,10 @@ exports.helloWorld = onRequest((request, response) => {
 
 exports.addAdminRole = onRequest((request, response) => {
   cors(request, response, () => {
-    return admin
+    // console.log(request.body.data.email);
+    admin
       .auth()
-      .getUserByEmail(request.data.email)
+      .getUserByEmail(request.body.data.email)
       .then((user) => {
         return admin.auth().setCustomUserClaims(user.uid, {
           admin: true,
@@ -31,7 +32,7 @@ exports.addAdminRole = onRequest((request, response) => {
       })
       .then(() => {
         return response.send({
-          data: `Success! ${request.data.email} has been made an admin`,
+          data: `Success! ${request.body.data.email} has been made an admin`,
         });
       });
   });

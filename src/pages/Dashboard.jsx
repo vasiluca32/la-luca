@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [email, setEmail] = useState('');
   function handleSubmit() {
     const addAdmin = httpsCallable(functions, 'addAdminRole');
-    addAdmin({ message: email })
+    addAdmin({ email: email })
       .then((result) => {
         // const data = JSON.parse(result);
         console.log(result);
