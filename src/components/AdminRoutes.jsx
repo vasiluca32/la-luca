@@ -6,10 +6,14 @@ const AdminRoutes = () => {
   const location = useLocation();
   const auth = useAuth();
 
-  if (auth.currentUser && auth.role === 'admin') {
+  if (auth.currentUser && auth.role) {
     return <Outlet />;
-  } else if (auth.currentUser && auth.role === 'customer') {
-    return <div>Unauthorized</div>;
+  } else if (auth.currentUser) {
+    return (
+      <div style={{ marginTop: '60px' }}>
+        <h1>Unauthorized</h1>
+      </div>
+    );
   } else {
     return <Navigate to='/*' state={{ from: location }} replace />;
   }

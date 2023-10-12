@@ -1,6 +1,16 @@
 {
   "rules": {
-    ".read": "now < 1703980800000",  // 2023-12-31
-    ".write": "now < 1703980800000",  // 2023-12-31
+    "appLoads": {
+      ".read": "true",
+      ".write": "true"
+    },
+    "products": {
+      ".read": "true",
+      ".write": "auth != null && auth.token.admin === true"
+    },
+    "blogPosts": {
+      ".read": "false",
+      ".write": "false"
+    }
   }
 }

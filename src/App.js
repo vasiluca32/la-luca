@@ -14,8 +14,6 @@ import Dashboard from './pages/Dashboard';
 import AdminRoutes from './components/AdminRoutes';
 import Footer from './components/Footer';
 // import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
 
 function App() {
   // AOS.init();

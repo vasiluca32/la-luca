@@ -6,8 +6,7 @@ const PrivateRoutes = () => {
   const location = useLocation();
   const auth = useAuth();
 
-  return auth.currentUser &&
-    (auth.role === 'admin' || auth.role === 'customer') ? (
+  return auth.currentUser ? (
     <Outlet />
   ) : (
     <Navigate to='/login' state={{ from: location }} replace />
