@@ -1,8 +1,8 @@
 const admin = require('firebase-admin');
-const { getDatabase } = require('firebase-admin/database');
+// const { getDatabase } = require('firebase-admin/database');
 const functions = require('firebase-functions');
 const { onRequest, onCall } = require('firebase-functions/v2/https');
-const { ref, get } = require('firebase/database');
+// const { ref, get } = require('firebase/database');
 
 admin.initializeApp({
   // credential: admin.credential.cert('./serviceAccountKey.json'), //for DEV
@@ -109,22 +109,22 @@ exports.listUsers = onCall({ cors: true }, (request) => {
 });
 
 // not used currently
-exports.getProducts = onCall({ cors: true }, (request) => {
-  // Get a database reference to our posts
-  const db = getDatabase();
-  const ref = db.ref('products');
+// exports.getProducts = onCall({ cors: true }, (request) => {
+//   // Get a database reference to our posts
+//   const db = getDatabase();
+//   const ref = db.ref('products');
 
-  // Use a Promise to handle the asynchronous database operation
-  return get(ref)
-    .then((snapshot) => {
-      // Data retrieved successfully, resolve the promise with the data
-      const products = snapshot.val();
-      console.log(products);
-      return products;
-    })
-    .catch((error) => {
-      // Handle errors and reject the promise if necessary
-      console.error('Error fetching products:', error);
-      throw new Error('Failed to fetch products');
-    });
-});
+//   // Use a Promise to handle the asynchronous database operation
+//   return get(ref) //ERROR WITH get() on functions deploy, module not found
+//     .then((snapshot) => {
+//       // Data retrieved successfully, resolve the promise with the data
+//       const products = snapshot.val();
+//       console.log(products);
+//       return products;
+//     })
+//     .catch((error) => {
+//       // Handle errors and reject the promise if necessary
+//       console.error('Error fetching products:', error);
+//       throw new Error('Failed to fetch products');
+//     });
+// });
