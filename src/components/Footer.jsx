@@ -9,7 +9,7 @@ const Footer = () => {
     e.preventDefault();
 
     const callableReturnMessage = httpsCallable(functions, 'helloWorld');
-    callableReturnMessage({ message: 'message from front' })
+    callableReturnMessage('message from front')
       .then((result) => {
         console.log(result);
       })

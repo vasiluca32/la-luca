@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { analytics, auth } from '../firebase/firebase';
-import { child, get, getDatabase, ref, set, update } from 'firebase/database';
+import { child, get, getDatabase, ref, update } from 'firebase/database';
 import { logEvent } from 'firebase/analytics';
 
 const AuthContext = createContext(null);
@@ -41,7 +41,7 @@ export function AuthContextProvider({ children }) {
     const db = getDatabase();
     const dbRef = ref(db);
 
-    // app loads count in database
+    //start app loads count in database
     get(child(dbRef, 'appLoads/'))
       .then((snapshot) => {
         // console.log(snapshot.val());
@@ -54,9 +54,11 @@ export function AuthContextProvider({ children }) {
       .catch((error) => {
         console.error(error);
       });
+    // end app loads
 
-    // analytics
+    // start analytics
     logEvent(analytics);
+    // end analytics
 
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = window.localStorage.getItem('emailForSignIn');
@@ -67,24 +69,6 @@ export function AuthContextProvider({ children }) {
       signInWithEmailLink(auth, email, window.location.href)
         .then((result) => {
           window.localStorage.removeItem('emailForSignIn');
-
-          // checking if the user's uid exist in the database
-          get(child(dbRef, `appUsers/${result.user.uid}`))
-            .then((snapshot) => {
-              // if user exist in database no action about it
-              if (snapshot.exists()) {
-                return;
-                // if not, we'll create a new user with role customer
-              } else {
-                set(ref(db, 'appUsers/' + result.user.uid), {
-                  email: result.user.email,
-                  role: 'customer',
-                });
-              }
-            })
-            .catch((error) => {
-              console.error(error);
-            });
         })
         .catch((error) => {
           console.log(error);
@@ -94,20 +78,20 @@ export function AuthContextProvider({ children }) {
 
   //watching the authentication state on all tabs
   useEffect(() => {
-    const db = getDatabase();
-    const dbRef = ref(db);
-
     auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
       if (user) {
-        console.log(user);
-        get(child(dbRef, `appUsers/${user.uid}`))
-          .then((snapshot) => {
-            // if user exist in database no action about it
-            setRole(snapshot.val().role);
+        setCurrentUser(user);
+        user
+          .getIdTokenResult()
+          .then((idTokenResult) => {
+            if (!!idTokenResult.claims.admin) {
+              setRole(idTokenResult.claims.admin);
+            } else {
+              setRole(null);
+            }
           })
-          .catch((error) => {
-            console.error(error);
+          .catch((err) => {
+            console.log(err);
           });
       }
     });

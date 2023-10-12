@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 // setEmail={setEmail}
 // handleSubmit={handleSubmit}
 // message={emailSent ? 'Email sent' : ''}
-const EmailForm = ({ email, setEmail, handleSubmit, message }) => {
+const EmailForm = ({ email, setEmail, handleSubmit, message, buttonText }) => {
   const [emailSent, setEmailSent] = useState(false);
   const emailInput = useRef();
   function handleFormSubmit(e) {
@@ -42,7 +42,7 @@ const EmailForm = ({ email, setEmail, handleSubmit, message }) => {
           className='btn btn-primary'
           disabled={email ? false : true}
         >
-          Submit
+          {buttonText ? buttonText : 'Submit'}
         </button>
         {emailSent && message ? <p>{message}</p> : ''}
       </form>
