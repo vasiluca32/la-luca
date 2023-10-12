@@ -1,21 +1,93 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import EmailForm from '../components/EmailForm';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../firebase/firebase';
 
 const Dashboard = () => {
+  const [email, setEmail] = useState('');
+  const [emailToRemoveAdmin, setEmailToRemoveAdmin] = useState('');
+  const [appUsers, setAppUsers] = useState([]);
+
+  function handleSubmit() {
+    const addAdmin = httpsCallable(functions, 'addAdminRole');
+    addAdmin({ email: email })
+      .then((result) => {
+        // const data = JSON.parse(result);
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function handleRemoveAdmin() {
+    const addAdmin = httpsCallable(functions, 'removeAdminRole');
+    addAdmin({ email: emailToRemoveAdmin })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    const listUsers = httpsCallable(functions, 'listUsers');
+    listUsers()
+      .then((result) => {
+        console.log(result);
+        setAppUsers(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(appUsers);
   return (
     <>
       <Helmet>
         <title>Dashboard - Gradina La Luca</title>
-        <meta property='og:title' content='Contact - Gradina La Luca' />
-        <meta property='og:type' content='website' />
-        <meta property='og:url' content='https://la-luca.web.app/dashboard' />
-        <meta
-          property='og:image'
-          content='https://firebasestorage.googleapis.com/v0/b/la-luca.appspot.com/o/appAssets%2Fheading-image.jpg?alt=media&token=56d8a9bb-98c6-484c-81bb-3c270c835fa6'
-        />
       </Helmet>
-      <div style={{ marginTop: '60px' }}>
-        <h1>Dashboard</h1>
+      <div className='page-wrapper' style={{ marginTop: '60px' }}>
+        <EmailForm
+          email={email}
+          setEmail={setEmail}
+          handleSubmit={handleSubmit}
+          buttonText='Make admin'
+        />
+        <hr />
+        <EmailForm
+          email={emailToRemoveAdmin}
+          setEmail={setEmailToRemoveAdmin}
+          handleSubmit={handleRemoveAdmin}
+          buttonText='Remove admin'
+        />
+        <hr />
+        <div className='container'>
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>UID</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appUsers.map((element) => {
+                return (
+                  <tr key={element.uid}>
+                    <td>{element.email}</td>
+                    <td>{element.uid}</td>
+                    <td>
+                      {element.customClaims?.admin ? 'admin' : 'not admin'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './styles/Carousel.scss';
-import { child, get, getDatabase } from 'firebase/database';
-import { ref } from 'firebase/database';
-import { initializeApp } from 'firebase/app';
+import { child, get } from 'firebase/database';
+import { dbRef } from '../firebase/firebase';
 
 const Carousel = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const app = initializeApp(
-      {
-        databaseURL: 'https://la-luca-b1300.europe-west1.firebasedatabase.app/',
-      },
-      'app2'
-    );
-    const db = getDatabase(app);
-    const dbRef = ref(db);
     get(child(dbRef, 'products/'))
       .then((snapshot) => {
         const validProducts = [];
