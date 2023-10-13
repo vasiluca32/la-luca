@@ -77,7 +77,7 @@ exports.removeAdminRole = onCall({cors: true}, async (request) => {
 //   }
 // });
 
-exports.listUsers = onCall({cors: "https://la-luca.web.app"}, (request) => {
+exports.listUsers = onCall({cors: true}, (request) => {
   const listAllUsers = (nextPageToken) => {
     return admin
         .auth()
