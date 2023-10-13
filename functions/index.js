@@ -5,7 +5,7 @@ const {onRequest, onCall} = require("firebase-functions/v2/https");
 // const { ref, get } = require('firebase/database');
 
 admin.initializeApp({
-  // credential: admin.credential.cert('./serviceAccountKey.json'), //for DEV
+  // credential: admin.credential.cert("./serviceAccountKey.json"), // for DEV
   credential: admin.credential.applicationDefault(), // for prod
   databaseURL: "https://la-luca-default-rtdb.europe-west1.firebasedatabase.app",
 });
