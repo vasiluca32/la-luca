@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import EmailForm from '../components/EmailForm';
+import EmailForm from '../components/shared/EmailForm';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase/firebase';
 
@@ -13,7 +13,6 @@ const Dashboard = () => {
     const addAdmin = httpsCallable(functions, 'addAdminRole');
     addAdmin({ email: email })
       .then((result) => {
-        // const data = JSON.parse(result);
         console.log(result);
       })
       .catch((error) => {
@@ -36,14 +35,12 @@ const Dashboard = () => {
     const listUsers = httpsCallable(functions, 'listUsers');
     listUsers()
       .then((result) => {
-        console.log(result);
         setAppUsers(result.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  console.log(appUsers);
   return (
     <>
       <Helmet>
@@ -64,19 +61,21 @@ const Dashboard = () => {
           buttonText='Remove admin'
         />
         <hr />
-        <div className='container'>
-          <table>
+        <div className='container table-responsive-md'>
+          <table className='table table-striped'>
             <thead>
               <tr>
-                <th>Email</th>
-                <th>UID</th>
-                <th>Role</th>
+                <th scope='col'>#</th>
+                <th scope='col'>Email</th>
+                <th scope='col'>UID</th>
+                <th scope='col'>Role</th>
               </tr>
             </thead>
             <tbody>
-              {appUsers.map((element) => {
+              {appUsers.map((element, index) => {
                 return (
                   <tr key={element.uid}>
+                    <th scope='row'>{index + 1}</th>
                     <td>{element.email}</td>
                     <td>{element.uid}</td>
                     <td>

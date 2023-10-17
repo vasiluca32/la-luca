@@ -4,26 +4,31 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
-import Nav from './components/Nav';
+import Nav from './components/common/Nav';
 import Blog from './pages/Blog';
 import Page404 from './pages/Page404';
 import LogIn from './pages/LogIn';
-import { AuthContextProvider } from './context/AuthContext';
-import PrivateRoutes from './components/PrivateRoutes';
+import { useAuth } from './context/AuthContext';
+import PrivateRoutes from './components/common/PrivateRoutes';
 import Dashboard from './pages/Dashboard';
-import AdminRoutes from './components/AdminRoutes';
-import Footer from './components/Footer';
+import AdminRoutes from './components/common/AdminRoutes';
+import Footer from './components/common/Footer';
 // import AOS from 'aos';
 
 function App() {
   // AOS.init();
+  const { loading } = useAuth();
+
   return (
     <div className='App' style={{ backgroundColor: '#dff5ce7a' }}>
-      <AuthContextProvider>
-        <header className='App-header'>
-          <Nav />
-        </header>
-
+      <header className='App-header'>
+        <Nav />
+      </header>
+      {loading ? (
+        <div>
+          <h1>loading</h1>
+        </div>
+      ) : (
         <Routes>
           <Route exact path='/' element={<Home />}></Route>
           <Route path='products' element={<Products />}></Route>
@@ -40,9 +45,9 @@ function App() {
 
           <Route path='*' element={<Page404 />}></Route>
         </Routes>
+      )}
 
-        <Footer />
-      </AuthContextProvider>
+      <Footer />
     </div>
   );
 }

@@ -19,6 +19,7 @@ export function useAuth() {
 export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState('');
   const [role, setRole] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // performs the action to send a login link to the provided email
   function signUp(email) {
@@ -79,6 +80,7 @@ export function AuthContextProvider({ children }) {
   //watching the authentication state on all tabs
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
+      setLoading(false);
       if (user) {
         setCurrentUser(user);
         user
@@ -95,7 +97,7 @@ export function AuthContextProvider({ children }) {
           });
       }
     });
-  });
+  }, []);
 
   // logs out a user from application
   function logOut() {
@@ -116,6 +118,7 @@ export function AuthContextProvider({ children }) {
     role,
     signUp,
     logOut,
+    loading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
