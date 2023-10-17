@@ -1,8 +1,8 @@
 import React from 'react';
-import './styles/Footer.scss';
-import logo from '../assets/logo/result-1.svg';
+import '../styles/Footer.scss';
+import logo from '../../assets/logo/result-1.svg';
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../firebase/firebase';
+import { functions } from '../../firebase/firebase';
 
 const Footer = () => {
   function handleSubmit(e) {

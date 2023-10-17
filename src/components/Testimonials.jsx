@@ -1,20 +1,101 @@
 import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import quote from '../assets/icons/quote.svg';
+import './styles/Testimonials.scss';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 const Testimonials = () => {
+  const testimonials = [
+    {
+      name: 'John Doe',
+      profile_url: 'https://randomuser.me/portraits/men/58.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+    {
+      name: 'Michael Something',
+      profile_url: 'https://randomuser.me/portraits/men/60.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+    {
+      name: 'Paul Scholes',
+      profile_url: 'https://randomuser.me/portraits/men/99.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+    {
+      name: 'Iggy Azalea',
+      profile_url: 'https://randomuser.me/portraits/women/98.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+    {
+      name: 'Sonya Claptone',
+      profile_url: 'https://randomuser.me/portraits/women/88.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+    {
+      name: 'Sean Connery',
+      profile_url: 'https://randomuser.me/portraits/men/45.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+    {
+      name: 'Kathy Perry',
+      profile_url: 'https://randomuser.me/portraits/women/12.jpg',
+      testimonial:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+    },
+  ];
   return (
-    <section
-      className='team-component bg-lavander d-flex align-items-center'
-      style={{ height: '50vh' }}
-    >
-      <div className='container text-center'>
-        <h1>Testimonials component</h1>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam
-          nostrum neque facilis numquam totam praesentium, enim delectus ex iste
-          nisi in quisquam cum incidunt aliquam, exercitationem explicabo labore
-          veritatis eos asperiores eius molestias! Sequi id nobis fuga! Nulla,
-          voluptas itaque!
-        </p>
+    <section className='testimonials-component d-flex align-items-center pt-5 pb-5'>
+      <div className='container'>
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          loop={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: true,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className='mySwiper pb-4'
+        >
+          {testimonials.map((item) => {
+            return (
+              <SwiperSlide>
+                <div className='card'>
+                  <div className='card-body'>
+                    <img className='img-quote' src={quote} alt='Quote' />
+                    <blockquote>
+                      <p className='card-text'>{item.testimonial}</p>
+                    </blockquote>
+                  </div>
+                  <div className='card-footer text-body-secondary d-flex align-items-center'>
+                    <img
+                      className='quoter-image rounded-circle'
+                      src={item.profile_url}
+                      alt='Quoter profile'
+                    />
+                    <p className='mb-0 ms-3'>{item.name}</p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
       </div>
     </section>
   );
