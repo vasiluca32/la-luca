@@ -1,0 +1,7 @@
+main {
+  margin-top: 60px;
+}
+
+.heading-component {
+  height: calc(100vh - 60px);
+}

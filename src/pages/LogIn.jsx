@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Helmet } from 'react-helmet-async';
-import EmailForm from '../components/EmailForm';
+import EmailForm from '../components/shared/EmailForm';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');

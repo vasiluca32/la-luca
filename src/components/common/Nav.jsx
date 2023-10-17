@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import AuthContext, { useAuth } from '../context/AuthContext';
-import './styles/Nav.scss';
-import logo from '../assets/logo/result-1.svg';
+import AuthContext, { useAuth } from '../../context/AuthContext';
+import '../styles/Nav.scss';
+import logo from '../../assets/logo/result-1.svg';
 
 const Nav = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -94,7 +94,11 @@ const Nav = () => {
               <>
                 <li
                   className='nav-item'
-                  style={{ display: 'flex', alignItems: 'center' }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
