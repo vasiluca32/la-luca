@@ -5,7 +5,7 @@ const {onRequest, onCall} = require("firebase-functions/v2/https");
 // const { ref, get } = require('firebase/database');
 
 admin.initializeApp({
-  // credential: admin.credential.cert("./serviceAccountKey.json"), // for DEV
+  // credential: admin.credential.cert('./serviceAccountKey.json'), // for DEV
   credential: admin.credential.applicationDefault(), // for prod
   databaseURL: "https://la-luca-default-rtdb.europe-west1.firebasedatabase.app",
 });
@@ -128,3 +128,22 @@ exports.listUsers = onCall({cors: true}, (request) => {
 //       throw new Error('Failed to fetch products');
 //     });
 // });
+
+exports.sendEmail = onCall({cors: true}, (request) => {
+  console.log(request.data);
+  const email = request.data.email;
+  const subject = request.data.subject;
+  const message = request.data.message;
+  admin
+      .firestore()
+      .collection("mail")
+      .add({
+        to: email,
+        message: {
+          subject: subject,
+          // text: 'This is the plaintext section of the email body.',
+          html: message,
+        },
+      })
+      .then(() => console.log("Queued email for delivery!"));
+});
