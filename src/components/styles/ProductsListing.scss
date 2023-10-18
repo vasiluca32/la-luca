@@ -1,0 +1,24 @@
+@import '../../scss/custom.scss';
+
+.products-listing-component {
+  .card {
+    .card-img-top {
+      height: 17rem;
+      object-fit: cover;
+    }
+
+    .position-absolute {
+      bottom: 1rem;
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .products-listing-component {
+    .card {
+      .card-img-top {
+        height: 12rem;
+      }
+    }
+  }
+}

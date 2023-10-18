@@ -1,6 +1,9 @@
 @import '../../scss/custom.scss';
 
 .testimonials-component {
+  .swiper-slide {
+    height: auto;
+  }
   .card {
     .img-quote {
       width: 2rem;
