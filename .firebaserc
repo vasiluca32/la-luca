@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "la-luca"
+  },
+  "targets": {},
+  "etags": {
+    "la-luca": {
+      "extensionInstances": {
+        "firestore-send-email": "cc5bc3c2537f5c98b8e714b6fb03e8877d7844c5858549a40982fe28cb0d951a"
+      }
+    }
   }
 }

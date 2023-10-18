@@ -61,6 +61,7 @@ const Dashboard = () => {
           buttonText='Remove admin'
         />
         <hr />
+
         <div className='container table-responsive-md'>
           <table className='table table-striped'>
             <thead>
