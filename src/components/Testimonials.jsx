@@ -15,8 +15,7 @@ const Testimonials = () => {
     {
       name: 'John Doe',
       profile_url: 'https://randomuser.me/portraits/men/58.jpg',
-      testimonial:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+      testimonial: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
     },
     {
       name: 'Michael Something',
@@ -40,13 +39,13 @@ const Testimonials = () => {
       name: 'Sonya Claptone',
       profile_url: 'https://randomuser.me/portraits/women/88.jpg',
       testimonial:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+        'Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
     },
     {
       name: 'Sean Connery',
       profile_url: 'https://randomuser.me/portraits/men/45.jpg',
       testimonial:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci, maiores aut voluptatibus dolor.',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque odio ratione necessitatibus eveniet obcaecati accusantium adipisci.',
     },
     {
       name: 'Kathy Perry',
@@ -59,9 +58,19 @@ const Testimonials = () => {
     <section className='testimonials-component d-flex align-items-center pt-5 pb-5'>
       <div className='container'>
         <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
+          slidesPerView={1}
+          spaceBetween={10}
           loop={true}
+          breakpoints={{
+            576: {
+              slidesPerView: 2,
+              spaceBetween: 30,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          }}
           autoplay={{
             delay: 2500,
             disableOnInteraction: true,
@@ -71,12 +80,12 @@ const Testimonials = () => {
           }}
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
-          className='mySwiper pb-4'
+          className='mySwiper pb-5'
         >
           {testimonials.map((item) => {
             return (
-              <SwiperSlide>
-                <div className='card'>
+              <SwiperSlide key={item.profile_url}>
+                <div className='card h-100'>
                   <div className='card-body'>
                     <img className='img-quote' src={quote} alt='Quote' />
                     <blockquote>
