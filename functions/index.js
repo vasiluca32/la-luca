@@ -1,22 +1,22 @@
-const admin = require("firebase-admin");
+const admin = require('firebase-admin');
 // const { getDatabase } = require('firebase-admin/database');
-const functions = require("firebase-functions");
-const {onRequest, onCall} = require("firebase-functions/v2/https");
+const functions = require('firebase-functions');
+const { onRequest, onCall } = require('firebase-functions/v2/https');
 // const { ref, get } = require('firebase/database');
 
 admin.initializeApp({
   // credential: admin.credential.cert('./serviceAccountKey.json'), // for DEV
   credential: admin.credential.applicationDefault(), // for prod
-  databaseURL: "https://la-luca-default-rtdb.europe-west1.firebasedatabase.app",
+  databaseURL: 'https://la-luca-default-rtdb.europe-west1.firebasedatabase.app',
 });
 
-exports.helloWorld = onRequest({cors: true}, (request, response) => {
+exports.helloWorld = onRequest({ cors: true }, (request, response) => {
   console.log(request.body.data);
-  functions.logger.info(request.body.data, {structuredData: true});
-  response.status(200).send({data: "server message"});
+  functions.logger.info(request.body.data, { structuredData: true });
+  response.status(200).send({ data: 'server message' });
 });
 
-exports.addAdminRole = onCall({cors: true}, async (request) => {
+exports.addAdminRole = onCall({ cors: true }, async (request) => {
   console.log(request.data.email);
   const user = await admin.auth().getUserByEmail(request.data.email);
   await admin.auth().setCustomUserClaims(user.uid, {
@@ -25,7 +25,7 @@ exports.addAdminRole = onCall({cors: true}, async (request) => {
   return `Success! ${request.data.email} has been made an admin`;
 });
 
-exports.removeAdminRole = onCall({cors: true}, async (request) => {
+exports.removeAdminRole = onCall({ cors: true }, async (request) => {
   console.log(request.data.email);
   const user = await admin.auth().getUserByEmail(request.data.email);
   await admin.auth().setCustomUserClaims(user.uid, null);
@@ -77,35 +77,35 @@ exports.removeAdminRole = onCall({cors: true}, async (request) => {
 //   }
 // });
 
-exports.listUsers = onCall({cors: true}, (request) => {
+exports.listUsers = onCall({ cors: true }, (request) => {
   const listAllUsers = (nextPageToken) => {
     return admin
-        .auth()
-        .listUsers(1000, nextPageToken)
-        .then((listUsersResult) => {
-          const users = listUsersResult.users.map((userRecord) =>
-            userRecord.toJSON(),
-          );
-          if (listUsersResult.pageToken) {
+      .auth()
+      .listUsers(1000, nextPageToken)
+      .then((listUsersResult) => {
+        const users = listUsersResult.users.map((userRecord) =>
+          userRecord.toJSON()
+        );
+        if (listUsersResult.pageToken) {
           // List next batch of users.
-            return listAllUsers(listUsersResult.pageToken).then(
-                (nextBatchUsers) => {
-                  return users.concat(nextBatchUsers);
-                },
-            );
-          }
-          return users;
-        });
+          return listAllUsers(listUsersResult.pageToken).then(
+            (nextBatchUsers) => {
+              return users.concat(nextBatchUsers);
+            }
+          );
+        }
+        return users;
+      });
   };
 
   return listAllUsers()
-      .then((allUsers) => {
-        return allUsers;
-      })
-      .catch((error) => {
-        console.error("Error listing users:", error);
-        throw new functions.https.HttpsError("internal", "Error listing users");
-      });
+    .then((allUsers) => {
+      return allUsers;
+    })
+    .catch((error) => {
+      console.error('Error listing users:', error);
+      throw new functions.https.HttpsError('internal', 'Error listing users');
+    });
 });
 
 // not used currently
@@ -129,21 +129,22 @@ exports.listUsers = onCall({cors: true}, (request) => {
 //     });
 // });
 
-exports.sendEmail = onCall({cors: true}, (request) => {
+exports.sendEmail = onCall({ cors: true }, (request) => {
   console.log(request.data);
   const email = request.data.email;
   const subject = request.data.subject;
   const message = request.data.message;
   admin
-      .firestore()
-      .collection("mail")
-      .add({
-        to: email,
-        message: {
-          subject: subject,
-          // text: 'This is the plaintext section of the email body.',
-          html: message,
-        },
-      })
-      .then(() => console.log("Queued email for delivery!"));
+    .firestore()
+    .collection('mail')
+    .add({
+      to: 'lucavasileluca@yahoo.com',
+      message: {
+        subject: subject,
+        // text: 'This is the plaintext section of the email body.',
+        html: `You have a message from ${email}.
+             Message: ${message}`,
+      },
+    })
+    .then(() => console.log('Queued email for delivery!'));
 });

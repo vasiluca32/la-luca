@@ -32,7 +32,7 @@ const ContactForm = () => {
       <form onSubmit={handleFormSubmit}>
         <div className='mb-3'>
           <label htmlFor='email' className='form-label'>
-            Email
+            Email-ul dumneavoastra
           </label>
           <input
             type='email'
