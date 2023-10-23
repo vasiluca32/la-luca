@@ -13,6 +13,7 @@ import PrivateRoutes from './components/common/PrivateRoutes';
 import Dashboard from './pages/Dashboard';
 import AdminRoutes from './components/common/AdminRoutes';
 import Footer from './components/common/Footer';
+import ProductDetail from './components/shared/ProductDetail';
 // import AOS from 'aos';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home />}></Route>
           <Route path='products' element={<Products />}></Route>
+          <Route path='products/:productID' element={<ProductDetail />}></Route>
           <Route path='login' element={<LogIn />}></Route>
           <Route path='contact' element={<Contact />}></Route>
 

@@ -56,56 +56,54 @@ const Testimonials = () => {
   ];
   return (
     <section className='testimonials-component d-flex align-items-center pt-5 pb-5'>
-      <div className='container'>
-        <Swiper
-          slidesPerView={1}
-          spaceBetween={10}
-          loop={true}
-          breakpoints={{
-            576: {
-              slidesPerView: 2,
-              spaceBetween: 30,
-            },
-            768: {
-              slidesPerView: 3,
-              spaceBetween: 30,
-            },
-          }}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className='mySwiper pb-5'
-        >
-          {testimonials.map((item) => {
-            return (
-              <SwiperSlide key={item.profile_url}>
-                <div className='card h-100'>
-                  <div className='card-body'>
-                    <img className='img-quote' src={quote} alt='Quote' />
-                    <blockquote>
-                      <p className='card-text'>{item.testimonial}</p>
-                    </blockquote>
-                  </div>
-                  <div className='card-footer text-body-secondary d-flex align-items-center'>
-                    <img
-                      className='quoter-image rounded-circle'
-                      src={item.profile_url}
-                      alt='Quoter profile'
-                    />
-                    <p className='mb-0 ms-3'>{item.name}</p>
-                  </div>
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={10}
+        loop={true}
+        breakpoints={{
+          576: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+        }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: true,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className='mySwiper pb-5'
+      >
+        {testimonials.map((item) => {
+          return (
+            <SwiperSlide key={item.profile_url}>
+              <div className='card h-100'>
+                <div className='card-body'>
+                  <img className='img-quote' src={quote} alt='Quote' />
+                  <blockquote>
+                    <p className='card-text'>{item.testimonial}</p>
+                  </blockquote>
                 </div>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-      </div>
+                <div className='card-footer text-body-secondary d-flex align-items-center'>
+                  <img
+                    className='quoter-image rounded-circle'
+                    src={item.profile_url}
+                    alt='Quoter profile'
+                  />
+                  <p className='mb-0 ms-3'>{item.name}</p>
+                </div>
+              </div>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
     </section>
   );
 };
