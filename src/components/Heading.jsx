@@ -1,21 +1,19 @@
 import React from 'react';
 import './styles/Heading.scss';
+import { Link } from 'react-router-dom';
 
-const Heading = () => {
+const Heading = (props) => {
   return (
-    <section className='heading-component d-flex align-items-center'>
-      <div className='container text-white'>
-        <div className='col-12 col-sm-6 text-left'>
-          <h1 className='header-1'>Gradina La Luca</h1>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit
-            quidem dignissimos, assumenda minima itaque odio ut exercitationem
-            deleniti. Obcaecati, ea.
-          </p>
-          <button type='button' className='btn btn-secondary'>
-            Lorem
-          </button>
-        </div>
+    <section className='heading-component position-relative d-flex align-items-center'>
+      <div className='image-wrapper position-absolute'>
+        <img src={props.data?.image} alt='Landscape' />
+      </div>
+      <div className='position-relative col-12 col-sm-6 text-left text-white'>
+        <h1 className='header-1'>{props.data?.title}</h1>
+        <p>{props.data?.text}</p>
+        <Link to='/contact' className='btn btn-secondary'>
+          {props.data?.button.text}
+        </Link>
       </div>
     </section>
   );
