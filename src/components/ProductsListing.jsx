@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles/ProductsListing.scss';
+import { Link } from 'react-router-dom';
 
 const ProductsListing = ({ products }) => {
   console.log(products);
@@ -34,6 +35,7 @@ const ProductsListing = ({ products }) => {
                   <p>
                     <b>Pret:</b> {element.price} RON/{element.um}
                   </p>
+                  <Link to={`/products/${element.name}`}>Detalii</Link>
                   <a
                     href='/products'
                     className='btn btn-primary position-absolute'

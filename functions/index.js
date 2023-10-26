@@ -133,16 +133,20 @@ exports.sendEmail = onCall({cors: true}, (request) => {
   console.log(request.data);
   const email = request.data.email;
   const subject = request.data.subject;
-  const message = request.data.message;
+  const message = request.data.text;
+  const name = request.data.name;
   admin
       .firestore()
       .collection("mail")
       .add({
-        to: email,
+        to: "lucavasileluca@yahoo.com",
         message: {
-          subject: subject,
+          subject: `Mesaj de pe site. Subiect: ${subject}`,
           // text: 'This is the plaintext section of the email body.',
-          html: message,
+          html: `Ati primit un mesaj de pe formularul web-siteului de la: <br>
+                Nume: ${name},<br>
+                E-mail: ${email}, <br>
+                Mesaj: ${message}`,
         },
       })
       .then(() => console.log("Queued email for delivery!"));

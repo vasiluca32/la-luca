@@ -6,15 +6,17 @@ const ContactForm = () => {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [text, setText] = useState('');
+  const [name, setName] = useState('');
 
   const emailInput = useRef();
   const subjectInput = useRef();
   const textInput = useRef();
+  const nameInput = useRef();
 
   function handleFormSubmit(e) {
     e.preventDefault();
     const sendEmail = httpsCallable(functions, 'sendEmail');
-    sendEmail({ email: email, subject: subject, message: text })
+    sendEmail({ email, subject, text, name })
       .then((result) => {
         console.log(result);
       })
@@ -25,14 +27,33 @@ const ContactForm = () => {
     setEmail('');
     setSubject('');
     setText('');
+    setName('');
   }
   return (
     <section className='contact-form-component pt-5 pb-5'>
-      <h1>Contactati-ne completand formularul de mai jos</h1>
+      <h1 className='text-center'>
+        Contactati-ne completand formularul de mai jos
+      </h1>
       <form onSubmit={handleFormSubmit}>
         <div className='mb-3'>
+          <label htmlFor='name' className='form-label'>
+            Nume
+          </label>
+          <input
+            type='text'
+            name='name'
+            id='name'
+            autoComplete='on'
+            ref={nameInput}
+            className='form-control'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className='mb-3'>
           <label htmlFor='email' className='form-label'>
-            Email
+            E-mail
           </label>
           <input
             type='email'
@@ -43,6 +64,7 @@ const ContactForm = () => {
             className='form-control'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder='your_email@something.com'
             required
           />
         </div>
