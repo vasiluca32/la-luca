@@ -46,7 +46,7 @@ const Nav = () => {
             <li className='nav-item'>
               <NavLink
                 to='/'
-                className='nav-link active'
+                className='nav-link'
                 aria-current='page'
                 onClick={() => setMobileMenu(false)}
               >
