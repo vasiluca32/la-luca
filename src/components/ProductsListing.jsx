@@ -6,9 +6,6 @@ const ProductsListing = ({ products }) => {
   return (
     <section className='products-listing-component pt-5 pb-5'>
       <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4'>
-        {/* {products.map((element) => {
-          
-        })} */}
         {Object.keys(products).map((productId) => {
           const element = products[productId];
           return (

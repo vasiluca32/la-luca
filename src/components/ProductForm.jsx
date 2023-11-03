@@ -52,7 +52,7 @@ const ProductForm = () => {
   return (
     <>
       <h5>Completeaza formularul pentru a adauga un nou produs</h5>
-      <form onSubmit={handleformSubmit}>
+      <form id='myForm' name='myForm' onSubmit={handleformSubmit}>
         <div className='mb-3'>
           <label htmlFor='category' className='form-label'>
             Categorie

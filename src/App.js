@@ -16,6 +16,7 @@ import Footer from './components/common/Footer';
 import ProductDetail from './components/shared/ProductDetail';
 import NewProduct from './components/NewProduct';
 import AdminControl from './components/AdminControl';
+import LoadingSpinner from './components/common/LoadingSpinner';
 // import AOS from 'aos';
 
 function App() {
@@ -28,13 +29,8 @@ function App() {
         <Nav />
       </header>
       {loading ? (
-        <div
-          className='d-flex justify-content-center'
-          style={{ height: '100vh', width: '100vw' }}
-        >
-          <div className='spinner-border' role='status'>
-            <span className='visually-hidden'>Loading...</span>
-          </div>
+        <div style={{ height: '100vh' }}>
+          <LoadingSpinner />
         </div>
       ) : (
         <Routes>
