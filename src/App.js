@@ -14,6 +14,9 @@ import Dashboard from './pages/Dashboard';
 import AdminRoutes from './components/common/AdminRoutes';
 import Footer from './components/common/Footer';
 import ProductDetail from './components/shared/ProductDetail';
+import NewProduct from './components/NewProduct';
+import AdminControl from './components/AdminControl';
+import LoadingSpinner from './components/common/LoadingSpinner';
 // import AOS from 'aos';
 
 function App() {
@@ -26,8 +29,8 @@ function App() {
         <Nav />
       </header>
       {loading ? (
-        <div>
-          <h1>loading</h1>
+        <div style={{ height: '100vh' }}>
+          <LoadingSpinner />
         </div>
       ) : (
         <Routes>
@@ -42,7 +45,10 @@ function App() {
           </Route>
 
           <Route element={<AdminRoutes />}>
-            <Route path='dashboard' element={<Dashboard />}></Route>
+            <Route path='dashboard' element={<Dashboard />}>
+              <Route path='admin-control' element={<AdminControl />}></Route>
+              <Route path='new-product' element={<NewProduct />}></Route>
+            </Route>
           </Route>
 
           <Route path='*' element={<Page404 />}></Route>

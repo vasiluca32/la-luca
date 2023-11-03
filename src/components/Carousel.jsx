@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react';
 import './styles/Carousel.scss';
 import { child, get } from 'firebase/database';
 import { dbRef } from '../firebase/firebase';
+import LoadingSpinner from './common/LoadingSpinner';
 
 const Carousel = (props) => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState(Object);
 
   useEffect(() => {
+    setLoading(true);
     get(child(dbRef, 'products/'))
       .then((snapshot) => {
-        const validProducts = [];
-        snapshot.val().forEach((element) => {
-          if (element.url) {
-            validProducts.push(element);
-          }
-        });
-        setProducts(validProducts);
+        setProducts(snapshot.val());
         setLoading(false);
       })
       .catch((error) => {
@@ -30,10 +26,11 @@ const Carousel = (props) => {
       <div id='carousel-1' className='carousel slide'>
         {!loading ? (
           <div className='carousel-inner'>
-            {products.map((element, index) => {
+            {Object.keys(products).map((productKey, index) => {
+              const element = products[productKey];
               return (
                 <div
-                  key={element.name}
+                  key={productKey}
                   className={
                     index === 0 ? 'carousel-item active' : 'carousel-item'
                   }
@@ -51,7 +48,7 @@ const Carousel = (props) => {
             })}
           </div>
         ) : (
-          <p>Loading</p>
+          <LoadingSpinner />
         )}
 
         <button
