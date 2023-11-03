@@ -91,12 +91,12 @@ export function AuthContextProvider({ children }) {
             } else {
               setRole(null);
             }
-            setLoading(false);
           })
           .catch((err) => {
             console.log(err);
           });
       }
+      setLoading(false);
     });
   }, []);
 
