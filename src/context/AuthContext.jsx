@@ -19,7 +19,7 @@ export function useAuth() {
 export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState('');
   const [role, setRole] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // performs the action to send a login link to the provided email
   function signUp(email) {
@@ -79,8 +79,8 @@ export function AuthContextProvider({ children }) {
 
   //watching the authentication state on all tabs
   useEffect(() => {
+    setLoading(true);
     auth.onAuthStateChanged((user) => {
-      setLoading(false);
       if (user) {
         setCurrentUser(user);
         user
@@ -91,6 +91,7 @@ export function AuthContextProvider({ children }) {
             } else {
               setRole(null);
             }
+            setLoading(false);
           })
           .catch((err) => {
             console.log(err);
