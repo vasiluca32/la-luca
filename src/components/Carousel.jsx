@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './styles/Carousel.scss';
 import { child, get } from 'firebase/database';
 import { dbRef } from '../firebase/firebase';
+import LoadingSpinner from './common/LoadingSpinner';
 
 const Carousel = (props) => {
   const [products, setProducts] = useState([]);
@@ -51,7 +52,7 @@ const Carousel = (props) => {
             })}
           </div>
         ) : (
-          <p>Loading</p>
+          <LoadingSpinner />
         )}
 
         <button

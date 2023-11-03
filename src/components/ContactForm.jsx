@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { functions } from '../firebase/firebase';
 
 const ContactForm = () => {
@@ -7,11 +7,6 @@ const ContactForm = () => {
   const [subject, setSubject] = useState('');
   const [text, setText] = useState('');
   const [name, setName] = useState('');
-
-  const emailInput = useRef();
-  const subjectInput = useRef();
-  const textInput = useRef();
-  const nameInput = useRef();
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -44,7 +39,6 @@ const ContactForm = () => {
             name='name'
             id='name'
             autoComplete='on'
-            ref={nameInput}
             className='form-control'
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -60,7 +54,6 @@ const ContactForm = () => {
             name='email'
             id='email'
             autoComplete='on'
-            ref={emailInput}
             className='form-control'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -77,7 +70,6 @@ const ContactForm = () => {
             name='subiect'
             id='subject'
             autoComplete='on'
-            ref={subjectInput}
             className='form-control'
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
@@ -93,7 +85,6 @@ const ContactForm = () => {
             name='text'
             id='text'
             autoComplete='on'
-            ref={textInput}
             className='form-control'
             value={text}
             onChange={(e) => setText(e.target.value)}
