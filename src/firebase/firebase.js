@@ -6,7 +6,7 @@ import { getStorage } from 'firebase/storage';
 import { getFunctions } from 'firebase/functions';
 // import { connectFunctionsEmulator } from 'firebase/functions';
 // import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-// import { connectDatabaseEmulator } from 'firebase/database';
+import { connectDatabaseEmulator } from 'firebase/database';
 import { getDatabase, ref } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -28,7 +28,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getDatabase();
+
 export const firestoreDb = getFirestore();
+
+const location = window.location;
+
+// if (location.hostname === 'localhost') {
+//   // Point to the RTDB emulator running on localhost.
+//   connectDatabaseEmulator(db, '127.0.0.1', 9000);
+// }
 
 export const auth = getAuth(app);
 export const analytics = getAnalytics(app);
