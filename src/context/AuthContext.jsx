@@ -80,6 +80,7 @@ export function AuthContextProvider({ children }) {
   //watching the authentication state on all tabs
   useEffect(() => {
     setLoading(true);
+
     auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);

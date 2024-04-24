@@ -28,7 +28,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getDatabase();
+
 export const firestoreDb = getFirestore();
+
+// const location = window.location;
+
+// if (location.hostname === 'localhost') {
+//   // Point to the RTDB emulator running on localhost.
+//   connectDatabaseEmulator(db, '127.0.0.1', 9000);
+// }
 
 export const auth = getAuth(app);
 export const analytics = getAnalytics(app);
