@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles/ProductsListing.scss';
 import { Link } from 'react-router-dom';
 
 const ProductsListing = ({ products }) => {
+  useEffect(() => {
+    const storedScrollPosition = sessionStorage.getItem('scrollPosition');
+    if (storedScrollPosition) {
+      window.scrollTo(0, parseInt(storedScrollPosition));
+      sessionStorage.removeItem('scrollPosition');
+    }
+  }, []);
+
+  const handleClick = () => {
+    sessionStorage.setItem('scrollPosition', window.scrollY);
+  };
+
   return (
     <section className='products-listing-component pt-5 pb-5'>
       <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4'>
@@ -21,7 +33,9 @@ const ProductsListing = ({ products }) => {
                   alt={element.name}
                 />
                 <div className='card-body position-relative pb-5'>
-                  <Link to={`/products/${productId}`}>Detalii</Link>
+                  <Link to={`/products/${productId}`} onClick={handleClick}>
+                    Detalii
+                  </Link>
                   <h5 className='card-title'>{element.name}</h5>
                   <p className='card-text'>{element.description}</p>
                   <p>
