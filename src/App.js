@@ -17,6 +17,7 @@ import ProductDetail from './components/shared/ProductDetail';
 import NewProduct from './components/NewProduct';
 import AdminControl from './components/AdminControl';
 import LoadingSpinner from './components/common/LoadingSpinner';
+import Cart from './pages/Cart';
 // import AOS from 'aos';
 
 function App() {
@@ -35,19 +36,22 @@ function App() {
       ) : (
         <Routes>
           <Route exact path='/' element={<Home />}></Route>
+
+          <Route path='products' element={<Products />}></Route>
+          <Route path='products/:productID' element={<ProductDetail />}></Route>
+          <Route path='login' element={<LogIn />}></Route>
+          <Route path='contact' element={<Contact />}></Route>
+
           <Route element={<AdminRoutes />}>
             <Route path='dashboard' element={<Dashboard />}>
               <Route path='admin-control' element={<AdminControl />}></Route>
               <Route path='new-product' element={<NewProduct />}></Route>
             </Route>
           </Route>
-          <Route path='products' element={<Products />}></Route>
-          <Route path='products/:productID' element={<ProductDetail />}></Route>
-          <Route path='login' element={<LogIn />}></Route>
-          <Route path='contact' element={<Contact />}></Route>
 
           <Route element={<PrivateRoutes />}>
             <Route path='blog' element={<Blog />}></Route>
+            <Route path='store' element={<Cart />}></Route>
           </Route>
 
           <Route path='*' element={<Page404 />}></Route>

@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { analytics, auth } from '../firebase/firebase';
-import { child, get, getDatabase, ref, update } from 'firebase/database';
+import { child, get, getDatabase, ref, set, update } from 'firebase/database';
 import { logEvent } from 'firebase/analytics';
 
 const AuthContext = createContext(null);
@@ -24,8 +24,8 @@ export function AuthContextProvider({ children }) {
   // performs the action to send a login link to the provided email
   function signUp(email) {
     const actionCodeSettings = {
-      url: 'https://la-luca.web.app/', //PROD purposes
-      // url: 'http://localhost:3000/', //DEV purposes
+      // url: 'https://la-luca.web.app/', //PROD purposes
+      url: 'http://localhost:3000/', //DEV purposes
       handleCodeInApp: true,
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
@@ -70,6 +70,17 @@ export function AuthContextProvider({ children }) {
       signInWithEmailLink(auth, email, window.location.href)
         .then((result) => {
           window.localStorage.removeItem('emailForSignIn');
+          get(child(dbRef, `users/${result.user.uid}`))
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                return;
+              } else {
+                set(ref(db, 'users/' + result.user.uid), { shoppingCart: '' });
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         })
         .catch((error) => {
           console.log(error);
