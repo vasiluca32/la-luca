@@ -1,17 +1,36 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthContext, { useAuth } from '../../context/AuthContext';
 import '../styles/Nav.scss';
 import logo from '../../assets/logo/result-1.svg';
+import { db } from '../../firebase/firebase';
+import { onValue, ref } from 'firebase/database';
 
 const Nav = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [cartItems, setCartItems] = useState(0);
   const { logOut } = useAuth();
   const loggedUser = useContext(AuthContext);
 
   function handleSignOut() {
     logOut();
   }
+
+  useEffect(() => {
+    if (!loggedUser) {
+      return;
+    }
+    const cartRef = ref(db, `users/${loggedUser.currentUser.uid}/shoppingCart`);
+    onValue(cartRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const cartSize = Object.entries(data).length;
+        setCartItems(cartSize);
+      } else {
+        setCartItems(0);
+      }
+    });
+  });
 
   return (
     <nav className='navbar-component navbar navbar-expand-lg navbar-light fixed-top bg-light'>
@@ -105,10 +124,11 @@ const Nav = () => {
                 }}
               >
                 <NavLink
-                  className='nav-link'
+                  className='nav-link cart'
                   to='store'
                   onClick={() => setMobileMenu(false)}
                 >
+                  <div className='bullet'>{cartItems}</div>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='16'

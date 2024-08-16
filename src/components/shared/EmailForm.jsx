@@ -29,7 +29,7 @@ const EmailForm = ({ email, setEmail, handleSubmit, message, buttonText }) => {
             type='email'
             name='email'
             id='email'
-            autoComplete='on'
+            autoComplete='email'
             ref={emailInput}
             className='form-control'
             value={email}

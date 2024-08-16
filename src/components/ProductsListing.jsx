@@ -24,8 +24,7 @@ const ProductsListing = ({ products }) => {
           const cartData = snapshot.val();
           const initialQuantities = Object.keys(products).reduce(
             (acc, productId) => {
-              acc[productId] =
-                cartData[products[productId].name]?.quantity || 0;
+              acc[productId] = cartData[productId]?.quantity || 0;
               return acc;
             },
             {}
@@ -71,7 +70,7 @@ const ProductsListing = ({ products }) => {
 
       const cartItemRef = ref(
         db,
-        `users/${currentUser.uid}/shoppingCart/${product.name}`
+        `users/${currentUser.uid}/shoppingCart/${productId}`
       );
 
       try {

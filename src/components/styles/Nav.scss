@@ -9,5 +9,40 @@
         height: auto;
       }
     }
+
+    .nav-link {
+      &.cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        .bullet {
+          position: absolute;
+          background-color: red;
+          width: 1rem;
+          height: 1rem;
+          top: 0;
+          right: -0.625rem;
+          border-radius: 50%;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+@include media-breakpoint-up(lg) {
+  .navbar-component {
+    .container-fluid {
+      .nav-link {
+        &.cart {
+          .bullet {
+            right: 0;
+          }
+        }
+      }
+    }
   }
 }
