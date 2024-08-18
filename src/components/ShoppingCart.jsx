@@ -10,6 +10,7 @@ const ShoppingCart = ({ data }) => {
   const [storeQuantities, setStoreQuantities] = useState({});
   const [inputQuantities, setInputQuantities] = useState({});
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const totalAmount = Object.keys(data).reduce((total, productId) => {
     const product = data[productId];
@@ -115,6 +116,8 @@ const ShoppingCart = ({ data }) => {
       .toString()
       .padStart(2, '0')}`;
     console.log(orderNumber);
+
+    setOrderPlaced(true);
   };
 
   return (
@@ -215,7 +218,7 @@ const ShoppingCart = ({ data }) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h1 className='modal-title fs-5' id='exampleModalLabel'>
-                Telefon
+                {!orderPlaced ? 'Telefon de contact' : 'Comanda inregistrata'}
               </h1>
               <button
                 type='button'
@@ -226,8 +229,9 @@ const ShoppingCart = ({ data }) => {
             </div>
             <div className='modal-body'>
               <p>
-                Va rugam furnizati un numar de telefon pentru a va putea
-                contacta atunci cand vom livra comanda
+                {!orderPlaced
+                  ? 'Va rugam furnizati un numar de telefon pentru a va putea contacta atunci cand vom livra comanda'
+                  : 'Comanda inregistrata cu numarul....Veti primi...'}
               </p>
               <PhoneInput
                 international
