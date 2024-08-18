@@ -2,11 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { db } from '../firebase/firebase';
 import { useAuth } from '../context/AuthContext';
 import { get, ref, set, update } from 'firebase/database';
+import 'react-phone-number-input/style.css';
+import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 const ShoppingCart = ({ data }) => {
   const { currentUser } = useAuth();
   const [storeQuantities, setStoreQuantities] = useState({});
   const [inputQuantities, setInputQuantities] = useState({});
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const totalAmount = Object.keys(data).reduce((total, productId) => {
     const product = data[productId];
@@ -98,6 +101,22 @@ const ShoppingCart = ({ data }) => {
     console.log(`Removed ${product.name} from cart`);
   };
 
+  const handleOrder = () => {
+    console.log(phoneNumber);
+    setPhoneNumber('');
+    const date = new Date();
+    const orderNumber = `${date.getFullYear()}${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}${date
+      .getHours()
+      .toString()
+      .padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date
+      .getSeconds()
+      .toString()
+      .padStart(2, '0')}`;
+    console.log(orderNumber);
+  };
+
   return (
     <section className='shoppingCart-component pt-5 pb-5'>
       <h2>Shopping cart component</h2>
@@ -169,10 +188,77 @@ const ShoppingCart = ({ data }) => {
           </div>
         );
       })}
-      <div className='card bg-warning'>
+      <div className='card bg-warning p-1'>
         <div className='row'>
-          <div className='col text-end'>
+          <div className='col text-center'>
             <h4>Total cos cumparaturi: {totalAmount} RON</h4>
+            <button
+              type='button'
+              className='btn btn-primary'
+              data-bs-toggle='modal'
+              data-bs-target='#exampleModal'
+            >
+              Plaseaza comanda
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className='modal fade'
+        id='exampleModal'
+        tabIndex='-1'
+        aria-labelledby='exampleModalLabel'
+        aria-hidden='true'
+      >
+        <div className='modal-dialog modal-dialog-centered'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h1 className='modal-title fs-5' id='exampleModalLabel'>
+                Telefon
+              </h1>
+              <button
+                type='button'
+                className='btn-close'
+                data-bs-dismiss='modal'
+                aria-label='Close'
+              ></button>
+            </div>
+            <div className='modal-body'>
+              <p>
+                Va rugam furnizati un numar de telefon pentru a va putea
+                contacta atunci cand vom livra comanda
+              </p>
+              <PhoneInput
+                international
+                defaultCountry='RO'
+                value={phoneNumber}
+                onChange={setPhoneNumber}
+                error={
+                  phoneNumber
+                    ? isPossiblePhoneNumber(phoneNumber)
+                      ? undefined
+                      : 'Invalid phone number'
+                    : 'Phone number required'
+                }
+              />
+            </div>
+            <div className='modal-footer'>
+              <button
+                type='button'
+                className='btn btn-secondary'
+                data-bs-dismiss='modal'
+              >
+                Inchideti
+              </button>
+              <button
+                type='button'
+                className='btn btn-primary'
+                onClick={handleOrder}
+              >
+                Salvati
+              </button>
+            </div>
           </div>
         </div>
       </div>
