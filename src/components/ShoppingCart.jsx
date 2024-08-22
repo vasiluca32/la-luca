@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { db } from '../firebase/firebase';
+import { db, functions } from '../firebase/firebase';
 import { useAuth } from '../context/AuthContext';
 import { get, ref, set, update } from 'firebase/database';
 import 'react-phone-number-input/style.css';
-import PhoneInput, { isPossiblePhoneNumber } from 'react-phone-number-input';
+import PhoneInput from 'react-phone-number-input';
+import { httpsCallable } from 'firebase/functions';
 
 const ShoppingCart = ({ data }) => {
   const { currentUser } = useAuth();
@@ -11,10 +12,12 @@ const ShoppingCart = ({ data }) => {
   const [inputQuantities, setInputQuantities] = useState({});
   const [phoneNumber, setPhoneNumber] = useState('');
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderNumber, setOrderNumber] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const totalAmount = Object.keys(data).reduce((total, productId) => {
     const product = data[productId];
-    return total + product.price * product.quantity.quantity;
+    return total + product.price * product.quantity;
   }, 0);
 
   useEffect(() => {
@@ -104,9 +107,21 @@ const ShoppingCart = ({ data }) => {
 
   const handleOrder = () => {
     console.log(phoneNumber);
-    setPhoneNumber('');
+    setSubmitted(true);
+    if (!phoneNumber) {
+      return;
+    }
+
+    if (
+      phoneNumber.length === 0 ||
+      phoneNumber.length < 11 ||
+      phoneNumber.length > 12
+    ) {
+      return;
+    }
+
     const date = new Date();
-    const orderNumber = `${date.getFullYear()}${(date.getMonth() + 1)
+    const orderNr = `${date.getFullYear()}${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}${date
       .getHours()
@@ -115,9 +130,24 @@ const ShoppingCart = ({ data }) => {
       .getSeconds()
       .toString()
       .padStart(2, '0')}`;
-    console.log(orderNumber);
+    setOrderNumber(orderNr);
+
+    // firebase function call
+    const email = currentUser.email;
+    const products = data;
+
+    const sendOrderEmail = httpsCallable(functions, 'sendOrderEmail');
+    sendOrderEmail({ products, totalAmount, orderNr, email, phoneNumber })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     setOrderPlaced(true);
+    setPhoneNumber('');
+    setSubmitted(false);
   };
 
   return (
@@ -228,30 +258,54 @@ const ShoppingCart = ({ data }) => {
               ></button>
             </div>
             <div className='modal-body'>
-              <p>
-                {!orderPlaced
-                  ? 'Va rugam furnizati un numar de telefon pentru a va putea contacta atunci cand vom livra comanda'
-                  : 'Comanda inregistrata cu numarul....Veti primi...'}
-              </p>
-              <PhoneInput
-                international
-                defaultCountry='RO'
-                value={phoneNumber}
-                onChange={setPhoneNumber}
-                error={
-                  phoneNumber
-                    ? isPossiblePhoneNumber(phoneNumber)
-                      ? undefined
-                      : 'Invalid phone number'
-                    : 'Phone number required'
-                }
-              />
+              {!orderPlaced ? (
+                <>
+                  <p>
+                    Va rugam furnizati un numar de telefon pentru a va putea
+                    contacta atunci cand vom livra comanda
+                  </p>
+                  <PhoneInput
+                    international
+                    defaultCountry='RO'
+                    value={phoneNumber}
+                    onChange={(value) => {
+                      setPhoneNumber(value);
+                      setSubmitted(false);
+                    }}
+                    countryCallingCodeEditable={false}
+                  />
+
+                  {submitted && !phoneNumber ? (
+                    <>
+                      <br></br>
+                      <p>Numarul de telefon este obligatoriu</p>
+                    </>
+                  ) : submitted &&
+                    (phoneNumber?.length < 11 || phoneNumber?.length > 12) ? (
+                    <>
+                      <br></br>
+                      <p>Numarul de telefon nu este valid</p>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </>
+              ) : (
+                <p>
+                  Comanda inregistrata cu numarul {orderNumber}. Veti primi in
+                  email cu sumarul comenzii. Puteti inchide aceasta fereastra
+                </p>
+              )}
             </div>
             <div className='modal-footer'>
               <button
                 type='button'
                 className='btn btn-secondary'
                 data-bs-dismiss='modal'
+                onClick={() => {
+                  setOrderPlaced(false);
+                  setSubmitted(false);
+                }}
               >
                 Inchideti
               </button>
@@ -259,6 +313,7 @@ const ShoppingCart = ({ data }) => {
                 type='button'
                 className='btn btn-primary'
                 onClick={handleOrder}
+                disabled={orderPlaced}
               >
                 Salvati
               </button>

@@ -24,7 +24,7 @@ const Cart = () => {
               return {
                 [productId]: {
                   ...productSnapshot.val(),
-                  quantity: cartData[productId],
+                  quantity: cartData[productId].quantity.toString(),
                 },
                 // Assuming cart data contains quantities
               };
