@@ -20,7 +20,7 @@ const EmailForm = ({ email, setEmail, handleSubmit, message, buttonText }) => {
   }
   return (
     <div className='container pt-5 pb-5'>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} autoComplete='on'>
         <div className='mb-3'>
           <label htmlFor='email' className='form-label'>
             Email address
@@ -29,7 +29,7 @@ const EmailForm = ({ email, setEmail, handleSubmit, message, buttonText }) => {
             type='email'
             name='email'
             id='email'
-            autoComplete='on'
+            autoComplete='email'
             ref={emailInput}
             className='form-control'
             value={email}

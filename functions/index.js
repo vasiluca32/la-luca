@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 // const { getDatabase } = require('firebase-admin/database');
 const functions = require("firebase-functions");
+// const {object} = require("firebase-functions/v1/storage");
 const {onRequest, onCall} = require("firebase-functions/v2/https");
 // const { ref, get } = require('firebase/database');
 
@@ -150,4 +151,70 @@ exports.sendEmail = onCall({cors: true}, (request) => {
         },
       })
       .then(() => console.log("Queued email for delivery!"));
+});
+
+exports.sendOrderEmail = onCall((request)=>{
+  const products = request.data.products;
+  const total = request.data.totalAmount;
+  const orderNumber = request.data.orderNr;
+  const email = request.data.email;
+  const phone = request.data.phoneNumber;
+
+  const orderedProducts = Object.keys(products).map((prodID)=>{
+    const product = products[prodID];
+    return `${product.name}: ${product.quantity} ${product.um} x
+     ${product.price} RON =${product.quantity * product.price} <br>`;
+  });
+
+  admin
+      .firestore()
+      .collection("mail")
+      .add({
+        to: "vasilelucaluca@gmail.com",
+        message: {
+          subject: `Comanda noua de pe site. Comanda nr: ${orderNumber}`,
+          html: `S-a efectuat o noua comanda pe site: <br>
+              Client: ${email}, <br>
+              Telefon: ${phone}, <br>
+              Produse: ${orderedProducts}
+              Total: ${total} RON`,
+        },
+      })
+      .then(()=>console.log("Queued email for delivery!"));
+});
+
+exports.sendClientEmail = onCall((request)=>{
+  const products = request.data.products;
+  const total = request.data.totalAmount;
+  const orderNumber = request.data.orderNr;
+  const email = request.data.email;
+  const phone = request.data.phoneNumber;
+
+  const orderedProducts = Object.keys(products).map((prodID)=>{
+    const product = products[prodID];
+    return `${product.name}: ${product.quantity} ${product.um} x 
+    ${product.price} RON =${product.quantity * product.price} <br>`;
+  });
+
+  admin
+      .firestore()
+      .collection("mail")
+      .add({
+        to: email,
+        message: {
+          subject: `Comanda Gradina La Luca Nr: ${orderNumber}`,
+          html: `Ati efectuat o comanda pe site-ul Gradina La Luca: <br>
+              Client: ${email}, <br>
+              Telefon: ${phone}, <br>
+              Produse: ${orderedProducts}
+              Total: ${total} RON 
+              <br><br>
+              Veti fi contactat curand pentru confirmare si livrare.
+              <br>
+              Va mutumim!
+              <br>
+              Echipa Gradina La Luca`,
+        },
+      })
+      .then(()=>console.log("Queued email for delivery!"));
 });
