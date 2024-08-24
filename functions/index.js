@@ -153,7 +153,7 @@ exports.sendEmail = onCall({cors: true}, (request) => {
       .then(() => console.log("Queued email for delivery!"));
 });
 
-exports.sendOrderEmail = onCall((request)=>{
+exports.sendOrderEmail = onCall({cors: true}, (request)=>{
   const products = request.data.products;
   const total = request.data.totalAmount;
   const orderNumber = request.data.orderNr;
@@ -183,7 +183,7 @@ exports.sendOrderEmail = onCall((request)=>{
       .then(()=>console.log("Queued email for delivery!"));
 });
 
-exports.sendClientEmail = onCall((request)=>{
+exports.sendClientEmail = onCall({cors: true}, (request)=>{
   const products = request.data.products;
   const total = request.data.totalAmount;
   const orderNumber = request.data.orderNr;
