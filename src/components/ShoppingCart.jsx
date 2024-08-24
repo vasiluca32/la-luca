@@ -106,7 +106,6 @@ const ShoppingCart = ({ data }) => {
   };
 
   const handleOrder = () => {
-    console.log(phoneNumber);
     setSubmitted(true);
     if (!phoneNumber) {
       return;
@@ -145,6 +144,18 @@ const ShoppingCart = ({ data }) => {
         console.log(error);
       });
 
+    const sendClientEmail = httpsCallable(functions, 'sendClientEmail');
+    sendClientEmail({ products, totalAmount, orderNr, email, phoneNumber })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const cartRef = ref(db, `users/${currentUser.uid}/shoppingCart`);
+    set(cartRef, null);
+
     setOrderPlaced(true);
     setPhoneNumber('');
     setSubmitted(false);
@@ -152,7 +163,7 @@ const ShoppingCart = ({ data }) => {
 
   return (
     <section className='shoppingCart-component pt-5 pb-5'>
-      <h2>Shopping cart component</h2>
+      <h1 className='text-center'>Aici se afla cosul tau de cumparaturi</h1>
       {Object.keys(data).map((productId) => {
         const product = data[productId];
         const storeQuantity = storeQuantities[productId] || 0;
@@ -214,7 +225,7 @@ const ShoppingCart = ({ data }) => {
               <div className='col-md-2'>
                 <div className='card-body'>
                   <h4>Total</h4>
-                  <p>{product.quantity.quantity * product.price} RON</p>
+                  <p>{product.quantity * product.price} RON</p>
                 </div>
               </div>
             </div>
@@ -224,15 +235,21 @@ const ShoppingCart = ({ data }) => {
       <div className='card bg-warning p-1'>
         <div className='row'>
           <div className='col text-center'>
-            <h4>Total cos cumparaturi: {totalAmount} RON</h4>
-            <button
-              type='button'
-              className='btn btn-primary'
-              data-bs-toggle='modal'
-              data-bs-target='#exampleModal'
-            >
-              Plaseaza comanda
-            </button>
+            {Object.keys(data).length === 0 && data.constructor === Object ? (
+              <h4>Momentan nu ai nimic in cos, exploreaza pagina de produse</h4>
+            ) : (
+              <>
+                <h4>Total cos cumparaturi: {totalAmount} RON</h4>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  data-bs-toggle='modal'
+                  data-bs-target='#exampleModal'
+                >
+                  Plaseaza comanda
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

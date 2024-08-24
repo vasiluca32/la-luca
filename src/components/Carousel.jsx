@@ -6,17 +6,19 @@ import LoadingSpinner from './common/LoadingSpinner';
 
 const Carousel = (props) => {
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState(Object);
+  const [products, setProducts] = useState(null); // Initialize as null
 
   useEffect(() => {
     setLoading(true);
     get(child(dbRef, 'products/'))
       .then((snapshot) => {
-        setProducts(snapshot.val());
+        const data = snapshot.val();
+        setProducts(data || {}); // Ensure products is always an object, even if null
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false); // Stop loading in case of an error
       });
   }, []);
 
@@ -24,7 +26,9 @@ const Carousel = (props) => {
     <section className='carousel-component pt-5 pb-5 d-flex flex-column justify-content-center align-items-center'>
       <h2 className='mb-5'>{props.data?.title}</h2>
       <div id='carousel-1' className='carousel slide'>
-        {!loading ? (
+        {loading ? (
+          <LoadingSpinner />
+        ) : products && Object.keys(products).length > 0 ? ( // Check if products exist and are not empty
           <div className='carousel-inner'>
             {Object.keys(products).map((productKey, index) => {
               const element = products[productKey];
@@ -48,7 +52,7 @@ const Carousel = (props) => {
             })}
           </div>
         ) : (
-          <LoadingSpinner />
+          <p>Momentan nu exista produse disponibile</p> // Show a message if no products are available
         )}
 
         <button

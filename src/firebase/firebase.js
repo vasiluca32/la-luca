@@ -4,7 +4,7 @@ import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
 import { getFunctions } from 'firebase/functions';
-import { connectFunctionsEmulator } from 'firebase/functions';
+// import { connectFunctionsEmulator } from 'firebase/functions';
 // import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 // import { connectDatabaseEmulator } from 'firebase/database';
 import { getDatabase, ref } from 'firebase/database';
@@ -45,6 +45,6 @@ export const functions = getFunctions(app);
 export const dbRef = ref(db);
 
 // DEV purposes
-connectFunctionsEmulator(functions, 'localhost', 5001);
+// connectFunctionsEmulator(functions, 'localhost', 5001);
 // connectFirestoreEmulator(firestoreDb, 'localhost', 8080);
 // connectDatabaseEmulator(db, 'localhost', 9000);

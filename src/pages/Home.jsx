@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Heading from '../components/Heading';
 // import Team from '../components/Team';
-import Testimonials from '../components/Testimonials';
+// import Testimonials from '../components/Testimonials';
 import Carousel from '../components/Carousel';
 import { Helmet } from 'react-helmet-async';
 import { doc, getDoc } from 'firebase/firestore';
@@ -40,7 +40,7 @@ const Home = () => {
         <div className='container'>
           <Heading data={firestoreData.heading} />
           <Carousel data={firestoreData.carousel} />
-          <Testimonials />
+          {/* <Testimonials /> */}
         </div>
       </main>
       {/* <Team />
