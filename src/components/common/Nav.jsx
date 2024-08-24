@@ -17,7 +17,7 @@ const Nav = () => {
   }
 
   useEffect(() => {
-    if (!loggedUser) {
+    if (!loggedUser.currentUser) {
       return;
     }
     const cartRef = ref(db, `users/${loggedUser.currentUser.uid}/shoppingCart`);
