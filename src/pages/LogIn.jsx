@@ -17,16 +17,18 @@ const LogIn = () => {
   return (
     <>
       <Helmet>
-        <title>Login - Gradina La Luca</title>
+        <title>Autentificare - Gradina La Luca</title>
       </Helmet>
-      <div className='page-wrapper' style={{ marginTop: '60px' }}>
-        <EmailForm
-          email={email}
-          setEmail={setEmail}
-          handleSubmit={handleSubmit}
-          message={emailSent ? 'Email sent' : ''}
-        />
-      </div>
+      <main>
+        <div className='container'>
+          <EmailForm
+            email={email}
+            setEmail={setEmail}
+            handleSubmit={handleSubmit}
+            message={emailSent ? 'Email sent' : ''}
+          />
+        </div>
+      </main>
     </>
   );
 };

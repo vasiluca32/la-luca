@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Home - Gradina La Luca</title>
+        <title>Acasa - Gradina La Luca</title>
       </Helmet>
 
       <main>

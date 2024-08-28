@@ -16,7 +16,7 @@ const Heading = (props) => {
       <div className='position-relative col-12 col-sm-6 text-left text-white'>
         <h1 className='header-1'>{props.data?.title}</h1>
         <p>{props.data?.text}</p>
-        <Link to='/contact' className='btn btn-secondary'>
+        <Link to={props.data?.button.link} className='btn btn-secondary'>
           {props.data?.button.text}
         </Link>
       </div>

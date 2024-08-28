@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <>
       <Helmet>
-        <title>Dashboard - Gradina La Luca</title>
+        <title>Admin - Gradina La Luca</title>
       </Helmet>
 
       <main>
