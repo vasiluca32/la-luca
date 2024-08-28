@@ -2,16 +2,16 @@
 
 .carousel-component {
   .carousel {
-    max-width: 800px;
+    max-width: 50rem;
     .carousel-inner {
       .carousel-item {
         img {
           object-fit: cover;
-          max-height: 400px;
+          max-height: 25rem;
         }
         &.active {
           img {
-            max-height: 400px;
+            max-height: 25rem;
           }
         }
       }
@@ -25,11 +25,11 @@
       .carousel-inner {
         .carousel-item {
           img {
-            max-height: 400px;
+            max-height: 25rem;
           }
           &.active {
             img {
-              max-height: 400px;
+              max-height: 25rem;
             }
           }
         }
@@ -41,15 +41,15 @@
 @include media-breakpoint-up(md) {
   .carousel-component {
     .carousel {
-      width: 800px;
+      width: 50rem;
       .carousel-inner {
         .carousel-item {
           img {
-            height: 450px;
+            height: 28.125rem;
           }
           &.active {
             img {
-              height: 450px;
+              height: 28.125rem;
             }
           }
         }

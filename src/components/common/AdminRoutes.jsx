@@ -19,7 +19,6 @@ const AdminRoutes = () => {
                 .getIdTokenResult()
                 .then((idTokenResult) => {
                   if (!!idTokenResult.claims.admin) {
-                    console.log(idTokenResult.claims.admin);
                     setRole(idTokenResult.claims.admin);
                   } else {
                     setRole(null);
@@ -34,8 +33,6 @@ const AdminRoutes = () => {
             unsubscribe();
           }, reject);
         });
-
-        console.log(loggedUser);
 
         if (loggedUser) {
           setUser(loggedUser);
@@ -57,7 +54,7 @@ const AdminRoutes = () => {
     return <Outlet />;
   } else if (user) {
     return (
-      <div style={{ marginTop: '60px' }}>
+      <div style={{ marginTop: '3.75rem' }}>
         <h1>Unauthorized</h1>
       </div>
     );

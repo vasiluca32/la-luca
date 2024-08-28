@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { dbRef } from '../../firebase/firebase';
 import LoadingSpinner from '../common/LoadingSpinner';
+import '../styles/ProductDetail.scss';
 
 const ProductDetail = () => {
   const { productID } = useParams();
@@ -31,8 +32,15 @@ const ProductDetail = () => {
       <main>
         <div className='container'>
           <section className='product-detail pt-5 pb-5'>
-            <img src={product.url} alt={product.name} width='300' />
-            <p>{product.name}</p>
+            <img
+              className='mb-2'
+              src={product.url}
+              alt={product.name}
+              width='500'
+            />
+            <p>
+              {product.type} {product.name}
+            </p>
             <p>{product.description}</p>
           </section>
         </div>

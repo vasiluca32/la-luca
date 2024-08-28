@@ -69,7 +69,7 @@ const Nav = () => {
                 aria-current='page'
                 onClick={() => setMobileMenu(false)}
               >
-                Home
+                Acasa
               </NavLink>
             </li>
             <li className='nav-item'>
@@ -78,7 +78,16 @@ const Nav = () => {
                 to='products'
                 onClick={() => setMobileMenu(false)}
               >
-                Products
+                Produse
+              </NavLink>
+            </li>
+            <li className='nav-item'>
+              <NavLink
+                className='nav-link'
+                to='info'
+                onClick={() => setMobileMenu(false)}
+              >
+                Cum comand
               </NavLink>
             </li>
             <li className='nav-item'>
@@ -90,7 +99,7 @@ const Nav = () => {
                 Contact
               </NavLink>
             </li>
-            <li className='nav-item'>
+            {/* <li className='nav-item'>
               <NavLink
                 className='nav-link'
                 to='blog'
@@ -98,7 +107,7 @@ const Nav = () => {
               >
                 Blog
               </NavLink>
-            </li>
+            </li> */}
 
             {loggedUser.currentUser && loggedUser.role ? (
               <li className='nav-item'>
@@ -107,7 +116,7 @@ const Nav = () => {
                   to='dashboard'
                   onClick={() => setMobileMenu(false)}
                 >
-                  Dashboard
+                  Admin
                 </NavLink>
               </li>
             ) : (
@@ -125,7 +134,7 @@ const Nav = () => {
               >
                 <NavLink
                   className='nav-link cart'
-                  to='store'
+                  to='cart'
                   onClick={() => setMobileMenu(false)}
                 >
                   <div className='bullet'>{cartItems}</div>
@@ -170,7 +179,7 @@ const Nav = () => {
 
                 <li className='nav-item'>
                   <NavLink className='nav-link' onClick={handleSignOut}>
-                    Sign Out
+                    Deconectare
                   </NavLink>
                 </li>
               </>
@@ -181,7 +190,7 @@ const Nav = () => {
                   to='login'
                   onClick={() => setMobileMenu(false)}
                 >
-                  Login
+                  Autentificare
                 </NavLink>
               </li>
             )}

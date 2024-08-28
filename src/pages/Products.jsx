@@ -24,7 +24,7 @@ const Products = () => {
     return (
       <>
         <Helmet>
-          <title>Products - Gradina La Luca</title>
+          <title>Produse - Gradina La Luca</title>
         </Helmet>
 
         <main>

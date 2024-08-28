@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
 import Nav from './components/common/Nav';
-import Blog from './pages/Blog';
+// import Blog from './pages/Blog';
 import Page404 from './pages/Page404';
 import LogIn from './pages/LogIn';
 import { useAuth } from './context/AuthContext';
@@ -18,46 +18,69 @@ import NewProduct from './components/NewProduct';
 import AdminControl from './components/AdminControl';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import Cart from './pages/Cart';
+import Info from './pages/Info';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { firestoreDb } from './firebase/firebase';
+import { useState } from 'react';
+import Maintenance from './components/common/Maintenance';
 // import AOS from 'aos';
 
 function App() {
   // AOS.init();
   const { loading } = useAuth();
+  const [appMaintenance, setAppMaintenance] = useState(null);
+
+  const docRef = doc(firestoreDb, 'app', 'maintenance');
+  onSnapshot(docRef, (doc) => {
+    setAppMaintenance(doc.data().maintenance);
+  });
 
   return (
     <div className='App' style={{ backgroundColor: '#dff5ce7a' }}>
-      <header className='App-header'>
-        <Nav />
-      </header>
-      {loading ? (
-        <div style={{ height: '100vh' }}>
-          <LoadingSpinner />
-        </div>
+      {!appMaintenance ? (
+        <>
+          <header className='App-header'>
+            <Nav />
+          </header>
+          {loading ? (
+            <div style={{ height: '100vh' }}>
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <Routes>
+              <Route exact path='/' element={<Home />}></Route>
+              <Route path='info' element={<Info />}></Route>
+              <Route path='products' element={<Products />}></Route>
+              <Route
+                path='products/:productID'
+                element={<ProductDetail />}
+              ></Route>
+              <Route path='login' element={<LogIn />}></Route>
+              <Route path='contact' element={<Contact />}></Route>
+
+              <Route element={<AdminRoutes />}>
+                <Route path='dashboard' element={<Dashboard />}>
+                  <Route
+                    path='admin-control'
+                    element={<AdminControl />}
+                  ></Route>
+                  <Route path='new-product' element={<NewProduct />}></Route>
+                </Route>
+              </Route>
+
+              <Route element={<PrivateRoutes />}>
+                {/* <Route path='blog' element={<Blog />}></Route> */}
+                <Route path='cart' element={<Cart />}></Route>
+              </Route>
+
+              <Route path='*' element={<Page404 />}></Route>
+            </Routes>
+          )}
+          <Footer />
+        </>
       ) : (
-        <Routes>
-          <Route exact path='/' element={<Home />}></Route>
-
-          <Route path='products' element={<Products />}></Route>
-          <Route path='products/:productID' element={<ProductDetail />}></Route>
-          <Route path='login' element={<LogIn />}></Route>
-          <Route path='contact' element={<Contact />}></Route>
-
-          <Route element={<AdminRoutes />}>
-            <Route path='dashboard' element={<Dashboard />}>
-              <Route path='admin-control' element={<AdminControl />}></Route>
-              <Route path='new-product' element={<NewProduct />}></Route>
-            </Route>
-          </Route>
-
-          <Route element={<PrivateRoutes />}>
-            <Route path='blog' element={<Blog />}></Route>
-            <Route path='store' element={<Cart />}></Route>
-          </Route>
-
-          <Route path='*' element={<Page404 />}></Route>
-        </Routes>
+        <Maintenance />
       )}
-      <Footer />
     </div>
   );
 }

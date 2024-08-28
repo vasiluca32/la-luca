@@ -50,7 +50,7 @@ const Cart = () => {
   return (
     <>
       <Helmet>
-        <title>Cart - Gradina La Luca</title>
+        <title>Cos - Gradina La Luca</title>
       </Helmet>
       <main>
         <div className='container'>
