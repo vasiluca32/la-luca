@@ -142,7 +142,7 @@ const Footer = () => {
             <div className='icons-wrapper d-flex justify-content-evenly'>
               <a
                 className='text-decoration-none'
-                href='https://wa.me/0748794107'
+                href='https://wa.me/+40748794107'
                 target='_blank'
                 rel='noreferrer'
               >
