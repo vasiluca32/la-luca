@@ -5,7 +5,7 @@ import LoadingSpinner from './common/LoadingSpinner';
 
 const Heading = (props) => {
   return (
-    <section className='heading-component position-relative d-flex align-items-center'>
+    <section className='heading-component position-relative d-flex'>
       <div className='image-wrapper position-absolute'>
         {props.data?.image ? (
           <img src={props.data?.image} alt='Landscape' />
@@ -13,7 +13,7 @@ const Heading = (props) => {
           <LoadingSpinner />
         )}
       </div>
-      <div className='position-relative col-12 col-sm-6 text-left text-white'>
+      <div className='position-relative col-sm-6 text-left text-white'>
         <h1 className='header-1'>{props.data?.title}</h1>
         <p>{props.data?.text}</p>
         <Link to={props.data?.button.link} className='btn btn-secondary'>

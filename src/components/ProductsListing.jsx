@@ -134,6 +134,7 @@ const ProductsListing = ({ products }) => {
                     <p>
                       <b>Pret:</b> {product.price} RON/{product.um}
                     </p>
+
                     <form
                       className='position-relative pb-5'
                       onSubmit={(e) => handleAddToCart(e, productId, product)}
@@ -147,6 +148,7 @@ const ProductsListing = ({ products }) => {
                           name='quantity'
                           id={`quantity-${productId}`}
                           value={inputQuantity}
+                          disabled={!product.availability}
                           onChange={(e) =>
                             handleQuantityChange(productId, +e.target.value)
                           }
@@ -157,16 +159,25 @@ const ProductsListing = ({ products }) => {
                             </option>
                           ))}
                         </select>
-                        <span> </span>
-                        {product.um}
+                        <span>{product.um}</span>
                       </label>
+
+                      {!product.availability ? (
+                        <p className='text-danger'>
+                          Acest produs nu este disponibil momentan
+                        </p>
+                      ) : (
+                        ''
+                      )}
+
                       {currentUser ? (
                         <button
                           type='submit'
                           className='btn btn-primary position-absolute'
                           disabled={
                             (storeQuantity === 0 && inputQuantity === 0) ||
-                            storeQuantity === inputQuantity
+                            storeQuantity === inputQuantity ||
+                            !product.availability
                           }
                         >
                           Adauga in cos

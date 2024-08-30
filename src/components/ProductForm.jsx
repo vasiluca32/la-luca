@@ -19,6 +19,8 @@ const ProductForm = () => {
     const type = formData.get('type');
     const um = formData.get('um');
     const file = formData.get('file');
+    const availabilityInput = formData.get('availability');
+    const availability = availabilityInput === 'on' ? true : false;
 
     const productsDb = ref(db, 'products');
     const newProduct = push(productsDb);
@@ -38,6 +40,7 @@ const ProductForm = () => {
               type,
               um,
               url,
+              availability,
             });
           })
           .catch((error) => {
@@ -144,15 +147,32 @@ const ProductForm = () => {
           />
         </div>
         <div className='mb-3'>
-          <label className='form-label'>Imagine pentru produs</label>
+          <label htmlFor='file' className='form-label'>
+            Imagine pentru produs
+          </label>
           <input
             type='file'
             className='form-control'
             name='file'
             autoComplete='on'
+            id='file'
             required
           />
         </div>
+
+        <div className='mb-3 form-check form-switch'>
+          <label className='form-check-label' htmlFor='availability'>
+            Disponibilitate produs
+          </label>
+          <input
+            className='form-check-input'
+            type='checkbox'
+            role='switch'
+            name='availability'
+            id='availability'
+          />
+        </div>
+
         <button type='submit' className='btn btn-primary'>
           Submit
         </button>
