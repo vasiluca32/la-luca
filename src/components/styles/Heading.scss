@@ -20,7 +20,7 @@
   .header-1 {
     font-size: 4rem;
 
-    @media (orientation: landscape) {
+    @media (max-height: 400px) {
       font-size: 2rem;
     }
   }
