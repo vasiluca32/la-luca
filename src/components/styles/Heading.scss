@@ -19,5 +19,9 @@
 
   .header-1 {
     font-size: 4rem;
+
+    @media (orientation: landscape) {
+      font-size: 2rem;
+    }
   }
 }

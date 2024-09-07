@@ -5,7 +5,7 @@ import LoadingSpinner from './common/LoadingSpinner';
 
 const Heading = (props) => {
   return (
-    <section className='heading-component position-relative d-flex'>
+    <section className='heading-component position-relative d-flex align-items-center'>
       <div className='image-wrapper position-absolute'>
         {props.data?.image ? (
           <img src={props.data?.image} alt='Landscape' />
