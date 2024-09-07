@@ -19,5 +19,9 @@
 
   .header-1 {
     font-size: 4rem;
+
+    @media (max-height: 400px) {
+      font-size: 2rem;
+    }
   }
 }
