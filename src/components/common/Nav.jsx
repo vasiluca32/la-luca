@@ -99,7 +99,7 @@ const Nav = () => {
                 Contact
               </NavLink>
             </li>
-            {/* <li className='nav-item'>
+            <li className='nav-item'>
               <NavLink
                 className='nav-link'
                 to='blog'
@@ -107,7 +107,7 @@ const Nav = () => {
               >
                 Blog
               </NavLink>
-            </li> */}
+            </li>
 
             {loggedUser.currentUser && loggedUser.role ? (
               <li className='nav-item'>

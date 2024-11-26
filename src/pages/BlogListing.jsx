@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const Blog = () => {
+const BlogListing = () => {
   return (
     <>
       <Helmet>
@@ -14,11 +14,13 @@ const Blog = () => {
           content='https://firebasestorage.googleapis.com/v0/b/la-luca.appspot.com/o/appAssets%2Fheading-image.jpg?alt=media&token=56d8a9bb-98c6-484c-81bb-3c270c835fa6'
         />
       </Helmet>
-      <div style={{ marginTop: '3.75rem' }}>
-        <h1>Blog page</h1>
-      </div>
+      <main>
+        <div className='container'>
+          <h1>Blog page</h1>
+        </div>
+      </main>
     </>
   );
 };
 
-export default Blog;
+export default BlogListing;

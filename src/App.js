@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
 import Nav from './components/common/Nav';
-// import Blog from './pages/Blog';
+import BlogListing from './pages/BlogListing';
 import Page404 from './pages/Page404';
 import LogIn from './pages/LogIn';
 import { useAuth } from './context/AuthContext';
@@ -57,6 +57,7 @@ function App() {
               ></Route>
               <Route path='login' element={<LogIn />}></Route>
               <Route path='contact' element={<Contact />}></Route>
+              <Route path='blog' element={<BlogListing />}></Route>
 
               <Route element={<AdminRoutes />}>
                 <Route path='dashboard' element={<Dashboard />}>
@@ -69,7 +70,6 @@ function App() {
               </Route>
 
               <Route element={<PrivateRoutes />}>
-                {/* <Route path='blog' element={<Blog />}></Route> */}
                 <Route path='cart' element={<Cart />}></Route>
               </Route>
 
