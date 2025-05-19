@@ -27,6 +27,11 @@ const Dashboard = () => {
                   New Product
                 </NavLink>
               </li>
+              <li className='nav-item'>
+                <NavLink to='new-blog-post' className='nav-link'>
+                  New Blog Post
+                </NavLink>
+              </li>
             </ul>
           </nav>
           <Outlet />

@@ -23,6 +23,8 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { firestoreDb } from './firebase/firebase';
 import { useState } from 'react';
 import Maintenance from './components/common/Maintenance';
+import NewBlogPost from './components/NewBlogPost';
+import BlogDetail from './components/BlogDetail';
 // import AOS from 'aos';
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
               <Route path='login' element={<LogIn />}></Route>
               <Route path='contact' element={<Contact />}></Route>
               <Route path='blog' element={<BlogListing />}></Route>
+              <Route path='blog/:blogID' element={<BlogDetail />}></Route>
 
               <Route element={<AdminRoutes />}>
                 <Route path='dashboard' element={<Dashboard />}>
@@ -66,6 +69,7 @@ function App() {
                     element={<AdminControl />}
                   ></Route>
                   <Route path='new-product' element={<NewProduct />}></Route>
+                  <Route path='new-blog-post' element={<NewBlogPost />}></Route>
                 </Route>
               </Route>
 
