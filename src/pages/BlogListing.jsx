@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-// import Blog from '../components/Blog';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { firestoreDb } from '../firebase/firebase';
 import { Link } from 'react-router-dom';
 
@@ -11,12 +10,15 @@ const BlogListing = () => {
   useEffect(() => {
     async function getBlog() {
       try {
-        const querySnapshot = await getDocs(collection(firestoreDb, 'blog'));
+        const blogQuery = query(
+          collection(firestoreDb, 'blog'),
+          orderBy('createdAt', 'desc') // Sort by createdAt descending
+        );
+        const querySnapshot = await getDocs(blogQuery);
         const blogs = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
         setBlogData(blogs); // ← now saving them into state
       } catch (error) {
         console.error('Error fetching blog data:', error);
@@ -47,6 +49,19 @@ const BlogListing = () => {
             >
               <Link to={`/blog/${blog.id}`}>
                 <h2>{blog.title}</h2>
+                <p>
+                  <time dateTime={blog.createdAt}>
+                    {blog?.createdAt.toDate().toLocaleString('ro-RO', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                    ;
+                  </time>
+                </p>
                 <img src={blog.imageUrl} alt='Blog Ilustration' />
               </Link>
             </div>

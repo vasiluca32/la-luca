@@ -25,6 +25,7 @@ import { useState } from 'react';
 import Maintenance from './components/common/Maintenance';
 import NewBlogPost from './components/NewBlogPost';
 import BlogDetail from './components/BlogDetail';
+import Profile from './pages/Profile';
 // import AOS from 'aos';
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
 
               <Route element={<PrivateRoutes />}>
                 <Route path='cart' element={<Cart />}></Route>
+                <Route path='profile' element={<Profile />}></Route>
               </Route>
 
               <Route path='*' element={<Page404 />}></Route>

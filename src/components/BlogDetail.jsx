@@ -2,26 +2,34 @@ import { useEffect, useState } from 'react';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { firestoreDb, storage } from '../firebase/firebase';
-import { deleteDoc, doc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
 import { ref, deleteObject } from 'firebase/storage';
 import { useAuth } from '../context/AuthContext';
+import CommentsForm from './CommentsForm';
 
 const BlogDetail = () => {
   const { blogID } = useParams();
   const [blog, setBlog] = useState(null);
+  const [comments, setComments] = useState(null);
   const [deleted, setDeleted] = useState(false);
   const location = useLocation();
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    console.log(currentUser);
     const fetchBlog = async () => {
       try {
         const docRef = doc(firestoreDb, `blog/${blogID}`);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          console.log('Document data:', docSnap.data());
           setBlog(docSnap.data());
         } else {
           console.log('No such document!');
@@ -32,6 +40,21 @@ const BlogDetail = () => {
     };
 
     if (blogID) fetchBlog();
+
+    const q = query(
+      collection(firestoreDb, `blog/${blogID}/comments`),
+      orderBy('date', 'asc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedComments = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setComments(fetchedComments);
+    });
+
+    return () => unsubscribe();
   }, [blogID, currentUser]);
 
   async function handleDelete() {
@@ -63,7 +86,7 @@ const BlogDetail = () => {
       <main>
         <div className='container'>
           <div className='buttons'>
-            <button type='button' className='btn btn-primary'>
+            <button type='button' className='btn btn-primary' disabled>
               Edit
             </button>
             <button
@@ -82,7 +105,7 @@ const BlogDetail = () => {
                   <p className='post-meta'>
                     <span>
                       Published on{' '}
-                      <time datetime={blog?.createdAt}>
+                      <time dateTime={blog?.createdAt}>
                         {blog?.createdAt.toDate().toLocaleString('ro-RO', {
                           weekday: 'long',
                           year: 'numeric',
@@ -96,20 +119,26 @@ const BlogDetail = () => {
                     </span>
                     <span>
                       {' '}
-                      | By <a href='/author/john-doe'>{blog?.author}</a>
+                      | By{' '}
+                      <a href='/author/john-doe'>
+                        <img
+                          src={blog?.authorImg}
+                          width='300'
+                          alt='Author'
+                        ></img>
+                        {blog?.author}
+                      </a>
                     </span>
-                    <span>
+                    {/* <span>
                       {' '}
                       | Category:{' '}
                       <a href='/category/web-development'>Web Development</a>
-                    </span>
+                    </span> */}
                   </p>
                   {/* Featured Image */}
                   <figure>
                     <img src={blog?.imageUrl} alt='Description'></img>
-                    <figcaption>
-                      Caption for the featured image (if necessary).
-                    </figcaption>
+                    <figcaption>{blog?.caption}</figcaption>
                   </figure>
                 </header>
 
@@ -143,32 +172,36 @@ const BlogDetail = () => {
               </section>
               <section id='comments'>
                 <h2>Comments</h2>
-                {/* <ul>
-                  <li>
-                    <p>
-                      <strong>Jane Doe:</strong> Great post! Thanks for sharing.
-                    </p>
-                    <p>
-                      <time datetime='2024-11-26T12:34'>
-                        November 26, 2024, 12:34 PM
-                      </time>
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      <strong>John Smith:</strong> This was really helpful,
-                      especially the part about semantic HTML.
-                    </p>
-                    <p>
-                      <time datetime='2024-11-26T13:45'>
-                        November 26, 2024, 1:45 PM
-                      </time>
-                    </p>
-                  </li>
-                </ul> */}
+                <ul>
+                  {comments?.map((comment) => (
+                    <li key={comment.id}>
+                      <p>
+                        <img
+                          src={comment.avatarUrl}
+                          alt='Author'
+                          width='50'
+                        ></img>
+                        <strong>{comment.author}:</strong> {comment.comment}
+                      </p>
+                      <p>
+                        <time dateTime={comment?.date}>
+                          {comment?.date.toDate().toLocaleString('ro-RO', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </time>
+                      </p>
+                    </li>
+                  ))}
+                </ul>
               </section>
             </div>
           </article>
+          <CommentsForm blogID={blogID} />
         </div>
       </main>
     </>

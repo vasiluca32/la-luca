@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { firestoreDb, storage } from '../firebase/firebase';
 import {
@@ -6,12 +6,15 @@ import {
   ref as ref_storage,
   getDownloadURL,
 } from 'firebase/storage';
+import { useAuth } from '../context/AuthContext';
 
 const NewBlogPost = () => {
   const [content, setContent] = useState('');
   const [blogTitle, setBlogTitle] = useState('');
   const [imageCaption, setImageCaption] = useState('');
   const [blogDescription, setBlogDescription] = useState('');
+
+  const { currentUser } = useAuth();
 
   const fileInputRef = useRef(null);
 
@@ -39,7 +42,8 @@ const NewBlogPost = () => {
         caption: imageCaption,
         content: content,
         createdAt: new Date(),
-        author: 'To update author',
+        author: currentUser.displayName,
+        authorImg: currentUser.photoURL,
       });
 
       console.log('Document successfully written!');
@@ -55,7 +59,7 @@ const NewBlogPost = () => {
   };
 
   return (
-    <section className='pt-5 pb-5'>
+    <section className='new-blogpost-component pt-5 pb-5'>
       <h1>Posteaza mai jos un blog nou.</h1>
       <form id='blogForm' name='blogForm' onSubmit={handleSubmit}>
         <div className='mb-3'>
@@ -98,7 +102,6 @@ const NewBlogPost = () => {
             type='file'
             className='form-control'
             name='file'
-            autoComplete='on'
             id='file'
             ref={fileInputRef}
             required
@@ -107,7 +110,7 @@ const NewBlogPost = () => {
 
         <div className='mb-3'>
           <label htmlFor='imageCaption' className='form-label'>
-            Titlu blog
+            Descriere pentru imagine "image caption"
           </label>
           <input
             type='text'
@@ -117,7 +120,6 @@ const NewBlogPost = () => {
             autoComplete='on'
             onChange={(e) => setImageCaption(e.target.value)}
             value={imageCaption}
-            required
           />
         </div>
 

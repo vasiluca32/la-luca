@@ -178,6 +178,16 @@ const Nav = () => {
                 </li>
 
                 <li className='nav-item'>
+                  <NavLink
+                    className='nav-link'
+                    to='profile'
+                    onClick={() => setMobileMenu(false)}
+                  >
+                    Profil
+                  </NavLink>
+                </li>
+
+                <li className='nav-item'>
                   <NavLink className='nav-link' onClick={handleSignOut}>
                     Deconectare
                   </NavLink>
