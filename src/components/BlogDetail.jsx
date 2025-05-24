@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { firestoreDb, storage } from '../firebase/firebase';
@@ -7,9 +7,12 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  increment,
   onSnapshot,
   orderBy,
   query,
+  setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { ref, deleteObject } from 'firebase/storage';
 import { useAuth } from '../context/AuthContext';
@@ -20,8 +23,10 @@ const BlogDetail = () => {
   const [blog, setBlog] = useState(null);
   const [comments, setComments] = useState(null);
   const [deleted, setDeleted] = useState(false);
+  const [userReaction, setUserReaction] = useState(null);
   const location = useLocation();
-  const { currentUser } = useAuth();
+  const { currentUser, visitorID } = useAuth();
+  const hasRun = useRef(false);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -30,7 +35,7 @@ const BlogDetail = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setBlog(docSnap.data());
+          setBlog({ id: docSnap.id, ...docSnap.data() });
         } else {
           console.log('No such document!');
         }
@@ -56,6 +61,119 @@ const BlogDetail = () => {
 
     return () => unsubscribe();
   }, [blogID, currentUser]);
+
+  useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
+    const incrementReadAndLoadReaction = async () => {
+      console.log('incrementRead ran');
+      if (!blogID || !visitorID) return;
+
+      const readerRef = doc(firestoreDb, `blog/${blogID}/readers/${visitorID}`);
+      const blogRef = doc(firestoreDb, `blog/${blogID}`);
+
+      try {
+        const readerSnap = await getDoc(readerRef);
+        if (!readerSnap.exists()) {
+          // First time reader
+          await setDoc(readerRef, { readAt: new Date(), reaction: null });
+          await updateDoc(blogRef, { readCount: increment(1) });
+          console.log('Read count incremented.');
+          setUserReaction(null);
+          // await updateDoc(
+          //   blogRef,
+          //   { readCount: increment(1) },
+          //   { merge: true }
+          // );
+          console.log('Read count incremented.');
+        } else {
+          // User has read before, load their reaction if any
+          const data = readerSnap.data();
+          setUserReaction(data.reaction || null);
+        }
+      } catch (error) {
+        console.error('Failed to track read:', error);
+      }
+    };
+
+    incrementReadAndLoadReaction();
+  }, [blogID, visitorID]);
+
+  // Reaction handler: like or dislike
+  async function handleReaction(type) {
+    if (!blogID || !visitorID) return;
+
+    const readerRef = doc(firestoreDb, `blog/${blogID}/readers/${visitorID}`);
+    const blogRef = doc(firestoreDb, `blog/${blogID}`);
+
+    try {
+      const readerSnap = await getDoc(readerRef);
+      const currentReaction = readerSnap.exists()
+        ? readerSnap.data().reaction
+        : null;
+
+      if (type === currentReaction) {
+        // Undo reaction
+        await updateDoc(readerRef, { reaction: null, reactedAt: null });
+        if (type === 'like') {
+          await updateDoc(blogRef, { likeCount: increment(-1) });
+          setBlog((prev) => ({
+            ...prev,
+            likeCount: (prev.likeCount ?? 0) - 1,
+          }));
+        } else if (type === 'dislike') {
+          await updateDoc(blogRef, { dislikeCount: increment(-1) });
+          setBlog((prev) => ({
+            ...prev,
+            dislikeCount: (prev.dislikeCount ?? 0) - 1,
+          }));
+        }
+        setUserReaction(null);
+      } else {
+        // New reaction or switch reaction
+        let updates = {};
+        if (type === 'like') {
+          updates.likeCount = increment(1);
+          if (currentReaction === 'dislike') {
+            updates.dislikeCount = increment(-1);
+            setBlog((prev) => ({
+              ...prev,
+              dislikeCount: (prev.dislikeCount ?? 0) - 1,
+            }));
+          }
+          setBlog((prev) => ({
+            ...prev,
+            likeCount: (prev.likeCount ?? 0) + 1,
+          }));
+        } else if (type === 'dislike') {
+          updates.dislikeCount = increment(1);
+          if (currentReaction === 'like') {
+            updates.likeCount = increment(-1);
+            setBlog((prev) => ({
+              ...prev,
+              likeCount: (prev.likeCount ?? 0) - 1,
+            }));
+          }
+          setBlog((prev) => ({
+            ...prev,
+            dislikeCount: (prev.dislikeCount ?? 0) + 1,
+          }));
+        }
+
+        await updateDoc(blogRef, updates);
+
+        await updateDoc(readerRef, {
+          reaction: type,
+          reactedAt: new Date(),
+          readAt: readerSnap.exists() ? readerSnap.data().readAt : new Date(),
+        });
+
+        setUserReaction(type);
+      }
+    } catch (error) {
+      console.error('Error handling reaction:', error);
+    }
+  }
 
   async function handleDelete() {
     try {
@@ -129,6 +247,7 @@ const BlogDetail = () => {
                         {blog?.author}
                       </a>
                     </span>
+                    <span> | 👁️ {blog?.readCount ?? 0} reads</span>
                     {/* <span>
                       {' '}
                       | Category:{' '}
@@ -140,6 +259,32 @@ const BlogDetail = () => {
                     <img src={blog?.imageUrl} alt='Description'></img>
                     <figcaption>{blog?.caption}</figcaption>
                   </figure>
+
+                  {/* Like/Dislike buttons */}
+                  <div style={{ marginTop: '1rem' }}>
+                    <button
+                      type='button'
+                      className={`btn btn-sm me-2 ${
+                        userReaction === 'like'
+                          ? 'btn-success'
+                          : 'btn-outline-success'
+                      }`}
+                      onClick={() => handleReaction('like')}
+                    >
+                      👍 Like {blog?.likeCount ?? 0}
+                    </button>
+                    <button
+                      type='button'
+                      className={`btn btn-sm ${
+                        userReaction === 'dislike'
+                          ? 'btn-danger'
+                          : 'btn-outline-danger'
+                      }`}
+                      onClick={() => handleReaction('dislike')}
+                    >
+                      👎 Dislike {blog?.dislikeCount ?? 0}
+                    </button>
+                  </div>
                 </header>
 
                 {/* Blog text content */}
