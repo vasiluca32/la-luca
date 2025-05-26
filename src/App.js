@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
 import Nav from './components/common/Nav';
-// import Blog from './pages/Blog';
+import BlogListing from './pages/BlogListing';
 import Page404 from './pages/Page404';
 import LogIn from './pages/LogIn';
 import { useAuth } from './context/AuthContext';
@@ -23,6 +23,9 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { firestoreDb } from './firebase/firebase';
 import { useState } from 'react';
 import Maintenance from './components/common/Maintenance';
+import NewBlogPost from './components/NewBlogPost';
+import BlogDetail from './components/BlogDetail';
+import Profile from './pages/Profile';
 // import AOS from 'aos';
 
 function App() {
@@ -57,6 +60,8 @@ function App() {
               ></Route>
               <Route path='login' element={<LogIn />}></Route>
               <Route path='contact' element={<Contact />}></Route>
+              <Route path='blog' element={<BlogListing />}></Route>
+              <Route path='blog/:blogID' element={<BlogDetail />}></Route>
 
               <Route element={<AdminRoutes />}>
                 <Route path='dashboard' element={<Dashboard />}>
@@ -65,12 +70,13 @@ function App() {
                     element={<AdminControl />}
                   ></Route>
                   <Route path='new-product' element={<NewProduct />}></Route>
+                  <Route path='new-blog-post' element={<NewBlogPost />}></Route>
                 </Route>
               </Route>
 
               <Route element={<PrivateRoutes />}>
-                {/* <Route path='blog' element={<Blog />}></Route> */}
                 <Route path='cart' element={<Cart />}></Route>
+                <Route path='profile' element={<Profile />}></Route>
               </Route>
 
               <Route path='*' element={<Page404 />}></Route>
