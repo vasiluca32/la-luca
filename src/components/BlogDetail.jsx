@@ -79,9 +79,18 @@ const BlogDetail = () => {
         const readerSnap = await getDoc(readerRef);
         if (!readerSnap.exists()) {
           // First time reader
-          await setDoc(readerRef, { readAt: new Date(), reaction: null });
-          await updateDoc(blogRef, { readCount: increment(1) });
+          await setDoc(
+            readerRef,
+            { readAt: new Date(), reaction: null },
+            { merge: true }
+          );
+          await updateDoc(
+            blogRef,
+            { readCount: increment(1) },
+            { merge: true }
+          );
           console.log('Read count incremented.');
+
           setUserReaction(null);
           // await updateDoc(
           //   blogRef,
