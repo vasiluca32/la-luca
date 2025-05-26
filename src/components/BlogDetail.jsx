@@ -17,6 +17,8 @@ import {
 import { ref, deleteObject } from 'firebase/storage';
 import { useAuth } from '../context/AuthContext';
 import CommentsForm from './CommentsForm';
+import { calculateReadTime } from './common/readTime';
+import './styles/BlogDetail.scss';
 
 const BlogDetail = () => {
   const { blogID } = useParams();
@@ -27,6 +29,7 @@ const BlogDetail = () => {
   const location = useLocation();
   const { currentUser, visitorID } = useAuth();
   const hasRun = useRef(false);
+  const [readTime, setReadTime] = useState(0);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -98,6 +101,13 @@ const BlogDetail = () => {
 
     incrementReadAndLoadReaction();
   }, [blogID, visitorID]);
+
+  useEffect(() => {
+    if (blog?.content) {
+      const time = calculateReadTime(blog.content);
+      setReadTime(time);
+    }
+  }, [blog]);
 
   // Reaction handler: like or dislike
   async function handleReaction(type) {
@@ -199,9 +209,9 @@ const BlogDetail = () => {
   return (
     <>
       <Helmet>
-        <title>Blog - Blog title variable</title>
+        <title>Blog</title>
       </Helmet>
-      <main>
+      <main className='blog-detail-component'>
         <div className='container'>
           <div className='buttons'>
             <button type='button' className='btn btn-primary' disabled>
@@ -216,13 +226,22 @@ const BlogDetail = () => {
             </button>
           </div>
           <article>
-            <div className='container'>
+            <div>
               <section className='blog-post'>
                 <header>
                   <h1>{blog?.title}</h1>
+                  {/* Featured Image */}
+                  <figure className='text-center'>
+                    <img
+                      className='img-fluid'
+                      src={blog?.imageUrl}
+                      alt='Description'
+                    ></img>
+                    <figcaption>{blog?.caption}</figcaption>
+                  </figure>
                   <p className='post-meta'>
                     <span>
-                      Published on{' '}
+                      Publicat{' '}
                       <time dateTime={blog?.createdAt}>
                         {blog?.createdAt.toDate().toLocaleString('ro-RO', {
                           weekday: 'long',
@@ -235,56 +254,24 @@ const BlogDetail = () => {
                         ;
                       </time>
                     </span>
+                    <span> | Timp pentru citire: {readTime} min</span>
                     <span>
                       {' '}
-                      | By{' '}
-                      <a href='/author/john-doe'>
-                        <img
-                          src={blog?.authorImg}
-                          width='300'
-                          alt='Author'
-                        ></img>
-                        {blog?.author}
-                      </a>
+                      | De{' '}
+                      <img
+                        src={blog?.authorImg}
+                        className='blog-author'
+                        alt='Author'
+                      ></img>
+                      {blog?.author}
                     </span>
-                    <span> | 👁️ {blog?.readCount ?? 0} reads</span>
+                    <span> | 👁️ {blog?.readCount ?? 0} citiri</span>
                     {/* <span>
                       {' '}
                       | Category:{' '}
                       <a href='/category/web-development'>Web Development</a>
                     </span> */}
                   </p>
-                  {/* Featured Image */}
-                  <figure>
-                    <img src={blog?.imageUrl} alt='Description'></img>
-                    <figcaption>{blog?.caption}</figcaption>
-                  </figure>
-
-                  {/* Like/Dislike buttons */}
-                  <div style={{ marginTop: '1rem' }}>
-                    <button
-                      type='button'
-                      className={`btn btn-sm me-2 ${
-                        userReaction === 'like'
-                          ? 'btn-success'
-                          : 'btn-outline-success'
-                      }`}
-                      onClick={() => handleReaction('like')}
-                    >
-                      👍 Like {blog?.likeCount ?? 0}
-                    </button>
-                    <button
-                      type='button'
-                      className={`btn btn-sm ${
-                        userReaction === 'dislike'
-                          ? 'btn-danger'
-                          : 'btn-outline-danger'
-                      }`}
-                      onClick={() => handleReaction('dislike')}
-                    >
-                      👎 Dislike {blog?.dislikeCount ?? 0}
-                    </button>
-                  </div>
                 </header>
 
                 {/* Blog text content */}
@@ -292,6 +279,31 @@ const BlogDetail = () => {
                   className='content'
                   dangerouslySetInnerHTML={{ __html: blog?.content }}
                 ></div>
+                {/* Like/Dislike buttons */}
+                <div className='mt-3 mb-3'>
+                  <button
+                    type='button'
+                    className={`btn btn-sm me-2 ${
+                      userReaction === 'like'
+                        ? 'btn-success'
+                        : 'btn-outline-success'
+                    }`}
+                    onClick={() => handleReaction('like')}
+                  >
+                    👍 Like {blog?.likeCount ?? 0}
+                  </button>
+                  <button
+                    type='button'
+                    className={`btn btn-sm ${
+                      userReaction === 'dislike'
+                        ? 'btn-danger'
+                        : 'btn-outline-danger'
+                    }`}
+                    onClick={() => handleReaction('dislike')}
+                  >
+                    👎 Dislike {blog?.dislikeCount ?? 0}
+                  </button>
+                </div>
                 {/* <div>
                   <p style={{ color: 'red' }}>
                     Introduction to the blog post. This is where you give a
@@ -315,34 +327,49 @@ const BlogDetail = () => {
                   </blockquote>
                 </div> */}
               </section>
-              <section id='comments'>
-                <h2>Comments</h2>
-                <ul>
-                  {comments?.map((comment) => (
-                    <li key={comment.id}>
-                      <p>
-                        <img
-                          src={comment.avatarUrl}
-                          alt='Author'
-                          width='50'
-                        ></img>
-                        <strong>{comment.author}:</strong> {comment.comment}
-                      </p>
-                      <p>
-                        <time dateTime={comment?.date}>
-                          {comment?.date.toDate().toLocaleString('ro-RO', {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </time>
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+              <section className='blog-comments'>
+                <h2>Comentarii</h2>
+                {!comments ? (
+                  <p>Nu exista momentan comentarii</p>
+                ) : (
+                  <ul>
+                    {comments?.map((comment) => (
+                      <li
+                        className='mb-3 border-bottom border-kashmir-blue'
+                        key={comment.id}
+                      >
+                        <div className='d-flex align-items-start'>
+                          <img
+                            className='me-4 object-fit-contain'
+                            src={comment.avatarUrl}
+                            alt='Author'
+                          ></img>
+                          <div>
+                            <p className='mb-0'>
+                              <strong>{comment.author}</strong>
+                            </p>
+                            <p>
+                              <time dateTime={comment?.date}>
+                                {comment?.date
+                                  .toDate()
+                                  .toLocaleString('ro-RO', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                              </time>
+                            </p>
+
+                            <p className='comment mt-2'>{comment.comment}</p>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </section>
             </div>
           </article>

@@ -26,7 +26,7 @@ export function AuthContextProvider({ children }) {
   function signUp(email) {
     const isDev = window.location.hostname === 'localhost';
     const actionCodeSettings = {
-      url: isDev ? 'http://localhost:3000/' : 'https://la-luca.web.app/',
+      url: isDev ? 'http://localhost:3000/' : 'https://gradinalaluca.ro/',
       handleCodeInApp: true,
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings)

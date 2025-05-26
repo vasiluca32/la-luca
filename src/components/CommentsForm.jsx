@@ -14,7 +14,7 @@ const CommentsForm = ({ blogID }) => {
     try {
       const blogComment = {
         userId: currentUser.uid,
-        author: currentUser.displayName || currentUser.email,
+        author: currentUser.displayName || currentUser.email.split('@')[0],
         comment: comment,
         avatarUrl: currentUser.photoURL || null,
         date: new Date(),

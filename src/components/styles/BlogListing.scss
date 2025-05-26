@@ -1,0 +1,23 @@
+@import '../../scss/custom.scss';
+
+.blog-listing-component {
+  .card {
+    .card-img-top {
+      height: 17rem;
+      object-fit: cover;
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .blog-listing-component {
+    .card {
+      .card-img-top {
+        height: 12rem;
+      }
+    }
+    .card:hover {
+      transform: scale(1.1);
+    }
+  }
+}

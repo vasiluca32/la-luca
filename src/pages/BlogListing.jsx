@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { firestoreDb } from '../firebase/firebase';
 import { Link } from 'react-router-dom';
-
+import '../components/styles/BlogListing.scss';
 const BlogListing = () => {
   const [blogData, setBlogData] = useState([]);
 
@@ -41,31 +41,45 @@ const BlogListing = () => {
       </Helmet>
       <main>
         <div className='container'>
-          <h1>Citeste un blog din lista de mai jos</h1>
-          {blogData.map((blog) => (
-            <div
-              key={blog.id}
-              style={{ marginBottom: '1rem', border: '1px solid red' }}
-            >
-              <Link to={`/blog/${blog.id}`}>
-                <h2>{blog.title}</h2>
-                <p>
-                  <time dateTime={blog.createdAt}>
-                    {blog?.createdAt.toDate().toLocaleString('ro-RO', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                    ;
-                  </time>
-                </p>
-                <img src={blog.imageUrl} alt='Blog Ilustration' />
-              </Link>
+          <section className='blog-listing-component pt-5 pb-5'>
+            <h1 className='mb-5'>Citeste un blog din lista de mai jos</h1>
+            <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4'>
+              {blogData.map((blog) => (
+                <div key={blog.id} className='col'>
+                  <div className='card h-100'>
+                    <Link
+                      to={`/blog/${blog.id}`}
+                      className='text-decoration-none text-body'
+                    >
+                      <img
+                        src={blog.imageUrl}
+                        className='card-img-top'
+                        alt='Blog Ilustration'
+                      />
+                      <div className='card-body'>
+                        <h2>{blog.title}</h2>
+                        <p>{blog.description}</p>
+                        <p>Autor: {blog.author}</p>
+                        <p>
+                          <time dateTime={blog.createdAt}>
+                            {blog?.createdAt.toDate().toLocaleString('ro-RO', {
+                              weekday: 'long',
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                            ;
+                          </time>
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </section>
         </div>
       </main>
     </>
