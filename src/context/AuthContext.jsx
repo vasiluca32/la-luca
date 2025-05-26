@@ -20,12 +20,13 @@ export function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState('');
   const [role, setRole] = useState('');
   const [loading, setLoading] = useState(false);
+  const [visitorID, setVisitorID] = useState(null);
 
   // performs the action to send a login link to the provided email
   function signUp(email) {
     const isDev = window.location.hostname === 'localhost';
     const actionCodeSettings = {
-      url: isDev ? 'http://localhost:3000/' : 'https://la-luca.web.app/',
+      url: isDev ? 'http://localhost:3000/' : 'https://gradinalaluca.ro/',
       handleCodeInApp: true,
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
@@ -124,6 +125,28 @@ export function AuthContextProvider({ children }) {
       });
   }
 
+  // tracking visitors
+  useEffect(() => {
+    let id = localStorage.getItem('visitorID');
+    if (!id) {
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        id = crypto.randomUUID();
+      } else {
+        // fallback UUID
+        id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+          /[xy]/g,
+          function (c) {
+            const r = (Math.random() * 16) | 0;
+            const v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+          }
+        );
+      }
+      localStorage.setItem('visitorID', id);
+    }
+    setVisitorID(id);
+  }, []);
+
   // context data, may need to add shopping cart, roles, etc
   const value = {
     currentUser,
@@ -131,6 +154,7 @@ export function AuthContextProvider({ children }) {
     signUp,
     logOut,
     loading,
+    visitorID,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
