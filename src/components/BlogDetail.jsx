@@ -27,7 +27,7 @@ const BlogDetail = () => {
   const [deleted, setDeleted] = useState(false);
   const [userReaction, setUserReaction] = useState(null);
   const location = useLocation();
-  const { currentUser, visitorID } = useAuth();
+  const { currentUser, visitorID, role } = useAuth();
   const hasRun = useRef(false);
   const [readTime, setReadTime] = useState(0);
 
@@ -213,18 +213,22 @@ const BlogDetail = () => {
       </Helmet>
       <main className='blog-detail-component'>
         <div className='container'>
-          <div className='buttons'>
-            <button type='button' className='btn btn-primary' disabled>
-              Edit
-            </button>
-            <button
-              type='button'
-              className='btn btn-danger'
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-          </div>
+          {currentUser && role ? (
+            <div className='buttons'>
+              <button type='button' className='btn btn-primary' disabled>
+                Edit
+              </button>
+              <button
+                type='button'
+                className='btn btn-danger'
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          ) : (
+            ''
+          )}
           <article>
             <div>
               <section className='blog-post'>
